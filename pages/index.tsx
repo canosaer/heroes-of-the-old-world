@@ -21,7 +21,7 @@ export default function Home() {
     bottom: 0,
     right: 0,
     background: '#113E53',
-    padding: '5rem 0.75rem 0rem 0.5rem',
+    padding: '5rem 1rem 0rem',
   }
 
   const homeTitleStyles = {
