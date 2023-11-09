@@ -5,15 +5,14 @@ DESCRIPTION:
 import Image from 'next/image';
 import Link from 'next/link';
 import { Box } from '@mui/system';
-import { Typography } from '@mui/material';
-import Button from '@mui/material/Button';
+import { Typography, Paper, Stack, Button } from '@mui/material';
 import DataLoader from '../components/DataLoader';
 
 export default function Home() {
 
   const homeStyles = {
     display: 'grid',
-    gridAutoRows: 'auto',
+    gridAutoRows: 'max-content',
     gridTemplateColumns: '1fr',
     position: 'fixed',
     top: 0,
@@ -33,6 +32,10 @@ export default function Home() {
     <Box component="main" sx={homeStyles}>
       <DataLoader />
       <Typography sx={homeTitleStyles} className="home__title" variant="h3" textAlign="center">Heroes of the Old World</Typography>
+      <Stack>
+        <Button variant="contained">New Game</Button>
+        <Button variant="contained" disabled>Continue Game</Button>
+      </Stack>
     </Box>
   )
 }
