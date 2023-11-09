@@ -29,12 +29,12 @@ export default function Home() {
   }
 
   return (
-    <Box component="main" sx={homeStyles}>
+    <Box className="home" component="main" sx={homeStyles}>
       <DataLoader />
-      <Typography sx={homeTitleStyles} className="home__title" variant="h3" textAlign="center">Heroes of the Old World</Typography>
-      <Stack>
-        <Button variant="contained">New Game</Button>
-        <Button variant="contained" disabled>Continue Game</Button>
+      <Typography className="home__title" sx={homeTitleStyles} variant="h3" textAlign="center">Heroes of the Old World</Typography>
+      <Stack className="menu">
+        <Button className="menu__option" variant="contained">New Game</Button>
+        <Button className="menu__option" variant="contained" disabled>Continue Game</Button>
       </Stack>
     </Box>
   )
