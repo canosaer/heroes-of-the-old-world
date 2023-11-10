@@ -12,7 +12,7 @@ export default function DataLoader() {
 
   const useLoadDataCallback = () => {
     const loadDataCallback = useCallback(async () => {
-      if (store.data[0]?.id === -1 || store.dataRefresh) {
+      if (!store.data || store.dataRefresh) {
         dispatch({ type: 'TOGGLE_LOADING', payload: true });
         console.log('loading session data into global context...');
 

@@ -17,7 +17,8 @@ TABLE OF CONTENTS:
 @use "mixins";
 
 /* 1. Partials =============================== */
-
+@use "home";
+@use "create";
 
 /* 2. Fonts ================================== */
 @import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
@@ -29,8 +30,8 @@ a {
 }
 
 body {
-  font-family:'Lucida Sans', sans-serif;
   position: relative;
+  background-color: #113E53;
 }
 
 #__next {

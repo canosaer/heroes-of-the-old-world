@@ -7,13 +7,71 @@ read and updated with the useContext React hook.
 import TypesData from './types';
 
 const data: TypesData = {
-    data: [
-        {
-            id: -1,
+    data: null,
+    playerCharacter: {
+        name: "",
+        edges: [
+            "",
+        ],
+        hindrances: [
+            "",
+        ],
+        traits: {
+            agility: {
+                rank: 4,
+                skills: {
+                    athletics: 4,
+                }
+            },
+            smarts: {
+                rank: 4,
+                skills: {
+                    notice: 4,
+                }
+            },
+            spirit: {
+                rank: 4,
+                skills: {
+                    persuasion: 4,
+                }
+            },
+            strength: {
+                rank: 4,
+            },
+            vigor: {
+                rank: 4,
+            },
         },
-    ],
+        powers: [
+            "",
+        ],
+        gear: [
+            "dagger",
+        ],
+        party: [
+            "",
+        ],
+        units: [
+            "",
+        ],
+        glyphs: [
+            "",
+        ],
+        rings: [
+            "",
+        ],
+        status: [
+            "",
+        ],
+        fatigue: 0,
+        wounds: 0,
+        xp: 0,
+        avatar: -1,
+        portrait: -1,
+    },
     dataRefresh: false,
     loading: false,
+
 };
 
 export default data;
