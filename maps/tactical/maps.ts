@@ -1,46 +1,39 @@
 import { terrain, Terrain } from './terrain';
-  
-const mapTerrainToImagePath = (terrainPath: string): string | null => {
-const [terrainType, terrainVariant] = terrainPath.split('.');
-const terrainMapping: Terrain | string | undefined = terrain[terrainType];
+import { StaticImageData } from 'next/image';
 
-if (!terrainMapping) {
+const mapTerrainToImagePath = (terrainPath: string): StaticImageData | null => {
+  const [terrainType, terrainVariant] = terrainPath.split('.');
+  const terrainMapping: Terrain | StaticImageData | undefined = terrain[terrainType];
+
+  if (!terrainMapping) {
     console.error(`Unknown terrain type: ${terrainType}`);
     return null;
-}
+  }
 
-if (typeof terrainMapping === 'string') {
-    // If it's a string, it's the final path
-    return terrainMapping;
-}
+  if (typeof terrainMapping === 'string') {
+    console.error(`Invalid terrain mapping: ${terrainType}`);
+    return null;
+  }
 
-const nestedTerrainMapping: Terrain | undefined = terrainMapping as Terrain;
+  const nestedTerrainMapping: Terrain | undefined = terrainMapping as Terrain;
 
-if (!nestedTerrainMapping) {
+  if (!nestedTerrainMapping) {
     console.error(`Invalid nested terrain mapping: ${terrainType}`);
     return null;
-}
+  }
 
-const terrainVariantMapping: string | Terrain | undefined = nestedTerrainMapping[terrainVariant];
+  const terrainVariantMapping: StaticImageData | Terrain | undefined = nestedTerrainMapping[terrainVariant];
 
-if (!terrainVariantMapping) {
+  if (!terrainVariantMapping) {
     console.error(`Unknown terrain variant: ${terrainVariant}`);
     return null;
-}
+  }
 
-if (typeof terrainVariantMapping === 'string') {
-    // If it's a string, it's the final path
-    return terrainVariantMapping;
-}
-
-console.error(`Invalid terrain variant mapping: ${terrainVariant}`);
-    return null;
+  return terrainVariantMapping as StaticImageData;
 };
 
-export const maps: (string | null)[][] = [
-    ['water.ocean.a07', 'water.ocean.a07', 'dirt.1', 'water.ocean.a07', 'water.ocean.a07'],
-    ['water.ocean.a07', 'water.ocean.a06', 'dirt.2', 'water.ocean.a06', 'water.ocean.a07'],
-    ['dirt.3', 'dirt.3', 'water.ocean.a06', 'dirt.3', 'dirt.3'],
-  ].map(row =>
-    row.map(tile => mapTerrainToImagePath(tile))
-  );
+export const maps: (StaticImageData | null)[][] = [
+  ['water.ocean.a07', 'water.ocean.a07', 'dirt.1', 'water.ocean.a07', 'water.ocean.a07'],
+  ['water.ocean.a07', 'water.ocean.a06', 'dirt.2', 'water.ocean.a06', 'water.ocean.a07'],
+  ['dirt.3', 'dirt.3', 'water.ocean.a06', 'dirt.3', 'dirt.3'],
+].map(row => row.map(tile => mapTerrainToImagePath(tile)));
