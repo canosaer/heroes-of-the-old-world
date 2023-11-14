@@ -1,17 +1,28 @@
-import { StaticImageData } from 'next/image';
-
-import oceanA07 from '../../assets/img/tactical/terrain/water/ocean-A07.png';
-import oceanA06 from '../../assets/img/tactical/terrain/water/ocean-A06.png';
+const terrainPath = '../../assets/img/tactical/terrain';
 
 export type Terrain = {
-  [key: string]: StaticImageData | Terrain;
+  [key: string]: string | Terrain;
 };
 
-export const terrain: Terrain = {
+const resolveTerrainUrls = (terrain: Terrain, basePath: string): Terrain => {
+  const resolvedTerrain: Terrain = {};
+  
+  for (const key in terrain) {
+    if (typeof terrain[key] === 'string') {
+      resolvedTerrain[key] = `${basePath}/${terrain[key]}`;
+    } else if (typeof terrain[key] === 'object') {
+      resolvedTerrain[key] = resolveTerrainUrls(terrain[key] as Terrain, `${basePath}/${key}`);
+    }
+  }
+
+  return resolvedTerrain;
+};
+
+export const terrain: Terrain = resolveTerrainUrls({
   water: {
     ocean: {
-      a07: oceanA07,
-      a06: oceanA06,
+      a07: 'water/ocean-A07.png',
+      a06: 'water/ocean-A06.png',
     },
   },
-};
+}, terrainPath);

@@ -1,10 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Stage, Layer, Circle } from 'react-konva';
+import { Stage, Layer, Circle, Image } from 'react-konva';
 import { Box } from '@mui/system';
 import Konva from 'konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { maps } from '../../maps/tactical/maps';
-import { terrain } from '../../maps/tactical/terrain';
+import HexImage from './HexImage'
+
+const hexWidth = 35; // Adjust this value based on your hexagon size
+const hexHeight = 72; // Adjust this value based on your hexagon size
 
 export default function BattleMap() {
   const [zoom, setZoom] = useState(1);
@@ -14,11 +17,17 @@ export default function BattleMap() {
   const stageRef = useRef<Konva.Stage | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setStageHeight(window.innerHeight - 35)
-      setStageWidth(window.innerWidth - 25)
+    if (typeof window !== 'undefined') {
+      setStageHeight(window.innerHeight - 35);
+      setStageWidth(window.innerWidth - 25);
     }
   }, []);
+
+  const calculateHexPosition = (rowIndex: number, colIndex: number): { x: number; y: number } => {
+    const x = colIndex * (3 / 2) * hexWidth;
+    const y = rowIndex * hexHeight + (colIndex % 2) * (hexHeight / 2);
+    return { x, y };
+  };
 
   const handleWheel = (e: KonvaEventObject<WheelEvent>) => {
     const scaleBy = 1.05;
@@ -68,72 +77,27 @@ export default function BattleMap() {
 
   return (
     <Box className="battle-map" component="main">
-            <Stage
-              className="stage"
-              width={stageWidth}
-              height={stageHeight}
-              scaleX={zoom}
-              scaleY={zoom}
-              ref={stageRef}
-              onWheel={handleWheel}
-              draggable
-              onDragMove={handleDragMove}
-            >
+      <Stage
+        className="stage"
+        width={stageWidth}
+        height={stageHeight}
+        scaleX={zoom}
+        scaleY={zoom}
+        ref={stageRef}
+        onWheel={handleWheel}
+        draggable
+        onDragMove={handleDragMove}
+      >
         <Layer>
-          <Circle x={200} y={100} radius={50} fill="green" />
+          {maps[0].grid.map((row, rowIndex) =>
+            row.map((tile, colIndex) => {
+              const key = `tile--${rowIndex}${colIndex}`;
+              const { x, y } = calculateHexPosition(rowIndex, colIndex);
+              return <HexImage imageSource={tile ?? ''} key={key} x={x} y={y} />;
+            })
+          )}
         </Layer>
       </Stage>
     </Box>
-  )
+  );
 }
-
-// const BattleMap: React.FC = () => {
-//   const stageRef = useRef<Konva.Stage | null>(null);
-//   const battleMap: BattleMap = {};
-//   const tileMapArrangement: (string | null)[][] = maps;
-
-//   useEffect(() => {
-//     const drawTileMap = (layer: Konva.Layer) => {
-//       for (let row = 0; row < tileMapArrangement.length; row++) {
-//         for (let col = 0; col < tileMapArrangement[row].length; col++) {
-//           const x = col * (50 * 1.5 + 5);
-//           const y = row * (50 * Math.sqrt(3) + 5 * 1.5);
-
-//           const hexagonString = tileMapArrangement[row][col];
-//           const hexagonImagePath = hexagonString !== null ? battleMap[hexagonString] : null;
-
-//           if (hexagonImagePath) {
-//             const hexagonKonvaImage = new window.Konva.Image;
-//             hexagonKonvaImage.src = hexagonImagePath;
-
-//             const konvaImage = new window.Konva.Image({
-//               x: x - 50,
-//               y: y - 50,
-//               image: hexagonKonvaImage,
-//               width: 100,
-//               height: 100,
-//             });
-
-//             layer.add(konvaImage);
-//           }
-//         }
-//       }
-//     };
-
-//     const layer = new window.Konva.Layer();
-//     drawTileMap(layer);
-
-//     const stage = stageRef.current?.getStage();
-//     if (stage) {
-//       stage.add(layer);
-//     }
-//   }, [battleMap, tileMapArrangement]);
-
-//   return (
-//     <Stage width={800} height={600} ref={stageRef}>
-//       <Layer />
-//     </Stage>
-//   );
-// };
-
-// export default BattleMap;
