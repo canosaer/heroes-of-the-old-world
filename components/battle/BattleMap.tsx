@@ -3,11 +3,11 @@ import { Stage, Layer, Circle, Image } from 'react-konva';
 import { Box } from '@mui/system';
 import Konva from 'konva';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { maps } from '../../maps/tactical/maps';
+import { maps } from '../../data/maps/tactical/maps';
 import HexImage from './HexImage'
 
-const hexWidth = 35; // Adjust this value based on your hexagon size
-const hexHeight = 72; // Adjust this value based on your hexagon size
+const hexWidth = 35;
+const hexHeight = 72;
 
 export default function BattleMap() {
   const [zoom, setZoom] = useState(1);
@@ -45,7 +45,7 @@ export default function BattleMap() {
           y: (pointer.y - stage.y()) / oldScale,
         };
 
-        const newScale = e.evt.deltaY > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+        const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
 
         setZoom(newScale);
 
