@@ -8,17 +8,24 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Box } from '@mui/system';
 import DataLoader from '../components/DataLoader';
-import { Typography, Paper, Stack, Button, TextField, Card, CardContent, CardMedia, IconButton } from '@mui/material';
+import { Typography, Paper, Stack, Button, TextField, Card, CardContent, CardMedia, IconButton, Tabs, Tab } from '@mui/material';
 import { NavigateNext, NavigateBefore } from '@mui/icons-material';
 import { playableSpecies } from '../data/playableSpecies'
 import { portraits } from '../data/portraits'
+import LinearProgressWithLabel from '../components/create/LinearProgressWithLabel';
+
 
 export default function Create() {
   const [name, setName] = useState('');
   const [playerSpecies, setPlayerSpecies] = useState<keyof typeof portraits>('human');
   const [playerPortraitIndex, setPlayerPortraitIndex] = useState(0);
+  const [tab, setTab] = useState(0);
 
   const portraitArray = portraits[playerSpecies];
+
+  const switchTab = (event: React.SyntheticEvent, newValue: number) => {
+    setTab(newValue);
+  };
 
   useEffect(() => {
     if (portraitArray && portraitArray.length > 0) {
@@ -31,6 +38,11 @@ export default function Create() {
       <DataLoader />
       <Typography className="create__heading" variant="h4" textAlign="center">Character Creation</Typography>
       <Paper className="chargen" component="section">
+        <Tabs value={tab} onChange={switchTab} centered>
+          <Tab label="Basics" />
+          <Tab label="Edges" />
+          <Tab label="Traits" />
+        </Tabs>
         <Stack className="chargen__inputs" component="form" noValidate autoComplete="off">
           <TextField 
             className="chargen__name" 
@@ -94,6 +106,7 @@ export default function Create() {
             </Box>
           </Card>
         </Stack>
+        {/* <LinearProgressWithLabel value={0} /> */}
       </Paper>
       
     </Box>
