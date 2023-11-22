@@ -1,0 +1,91 @@
+/*
+NAME: Basics
+DESCRIPTION:
+*/
+
+import { useState, useEffect } from 'react';
+import { Box } from '@mui/system';
+import { Typography, Stack, TextField, Card, CardContent, CardMedia, IconButton } from '@mui/material';
+import { NavigateNext, NavigateBefore } from '@mui/icons-material';
+import { playableSpecies } from '../../data/playableSpecies'
+import { portraits } from '../../data/portraits'
+
+export default function Create() {
+  const [name, setName] = useState('');
+  const [playerSpecies, setPlayerSpecies] = useState<keyof typeof portraits>('human');
+  const [playerPortraitIndex, setPlayerPortraitIndex] = useState(0);
+
+  const portraitArray = portraits[playerSpecies];
+
+  useEffect(() => {
+    if (portraitArray && portraitArray.length > 0) {
+      setPlayerPortraitIndex(0);
+    }
+  }, [portraitArray]);
+
+  return (
+    <Stack className="basics" component="form" noValidate autoComplete="off">
+        <TextField 
+            className="basics__name" 
+            component="data" label="Name" 
+            value={name} 
+            onChange={(e)=>setName(e.target.value)}
+        />
+        <TextField 
+            className="basics__species" 
+            component="data" 
+            select 
+            label="Species" 
+            value={playerSpecies}
+            SelectProps={{
+                native: true,
+            }}
+            onChange={(e) => setPlayerSpecies(e.target.value as "human" | "dwarf" | "drake" | "elf")}
+        >
+        {playableSpecies.map((option) => (
+            <option key={option.value} value={option.value}>
+            {option.label}
+            </option>
+        ))}
+        </TextField>
+        <Card className="portrait" component="figure">
+        <CardContent className="heading">
+            <Typography className="heading__text" variant="h6">
+            Portrait
+            </Typography>
+        </CardContent>
+        <CardMedia
+            className="portrait__image"
+            component="img"
+            sx={{ width: 151 }}
+            image={portraitArray ? portraitArray[playerPortraitIndex] : ''}
+            alt=""
+        />
+        <Box className="controls" sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+            <IconButton
+            className="controls__button controls__button_prev"
+            aria-label="previous"
+            onClick={() => {
+                setPlayerPortraitIndex((prevIndex) =>
+                prevIndex === 0 ? portraitArray.length - 1 : prevIndex - 1
+                );
+            }}
+            >
+            <NavigateBefore className="controls__icon controls__icon_prev" />
+            </IconButton>
+            <IconButton
+            className="controls__button controls__button_next"
+            aria-label="next"
+            onClick={() => {
+                setPlayerPortraitIndex((prevIndex) =>
+                prevIndex === portraitArray.length - 1 ? 0 : prevIndex + 1
+                );
+            }}
+            >
+            <NavigateNext className="controls__icon controls__icon_prev" />
+            </IconButton>
+        </Box>
+        </Card>
+    </Stack>
+  )
+}

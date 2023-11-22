@@ -10,10 +10,9 @@ const data: TypesData = {
     data: null,
     playerCharacter: {
         name: "",
+        playerSpecies: 'human',
+        playerPortraitIndex: 0,
         edges: [
-            "",
-        ],
-        hindrances: [
             "",
         ],
         traits: {

@@ -14,7 +14,6 @@ import { playableSpecies } from '../data/playableSpecies'
 import { portraits } from '../data/portraits'
 import LinearProgressWithLabel from '../components/create/LinearProgressWithLabel';
 
-
 export default function Create() {
   const [name, setName] = useState('');
   const [playerSpecies, setPlayerSpecies] = useState<keyof typeof portraits>('human');
