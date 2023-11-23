@@ -19,6 +19,31 @@ const reducer = (state: TypesData, action: Action): TypesData => {
                 ...state,
                 loading: action.payload
             };
+        case 'SET_NAME':
+            return {
+                ...state,
+                playerCharacter: {
+                    ...state.playerCharacter,
+                    name: action.payload
+                }
+            };
+        case 'SET_SPECIES':
+            return {
+                ...state,
+                playerCharacter: {
+                    ...state.playerCharacter,
+                    playerSpecies: action.payload
+                }
+            };
+        case 'SET_PORTRAIT':
+            return {
+                ...state,
+                playerCharacter: {
+                    ...state.playerCharacter,
+                    playerPortraitIndex: action.payload
+                }
+                
+            };
         default:
             return state;
     }
