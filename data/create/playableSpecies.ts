@@ -19,7 +19,7 @@ export const playableSpecies = [
         },
         { 
           heading: 'Reduced Pace',
-          text: 'Dwarves have short legs compared to most races.'
+          text: 'Dwarves have short legs compared to most species.'
         },
         { 
           heading: 'Tough',
@@ -41,7 +41,7 @@ export const playableSpecies = [
         },
         { 
           heading: 'Low Light Vision',
-          text: "Elven eyes amplify light. Other species often claim they can see stars in the elves' eyes. They ignore penalties for Dim and Dark Illumination."
+          text: "Elven eyes amplify light. They ignore penalties for Dim and Dark Illumination."
         },
       ],
     },
