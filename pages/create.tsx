@@ -10,10 +10,12 @@ import { Box } from '@mui/system';
 import DataLoader from '../components/DataLoader';
 import { Typography, Paper, Stack, Button, TextField, Card, CardContent, CardMedia, IconButton, Tabs, Tab } from '@mui/material';
 import { NavigateNext, NavigateBefore } from '@mui/icons-material';
-import { playableSpecies } from '../data/playableSpecies'
-import { portraits } from '../data/portraits'
+import { playableSpecies } from '../data/create/playableSpecies'
+import { portraits } from '../data/create/portraits'
 import LinearProgressWithLabel from '../components/create/LinearProgressWithLabel';
 import Basics from '../components/create/Basics'
+import Edges from '../components/create/Edges'
+import Traits from '../components/create/Traits'
 
 export default function Create() {
   const [name, setName] = useState('');
@@ -33,6 +35,10 @@ export default function Create() {
     }
   }, [portraitArray]);
 
+  // useEffect(() => {
+  //   console.log(tab)
+  // }, [tab]);
+
   return (
     <Box className="create" component="main">
       <DataLoader />
@@ -43,7 +49,9 @@ export default function Create() {
           <Tab label="Edges" />
           <Tab label="Traits" />
         </Tabs>
-        <Basics />
+        {tab === 0 && <Basics />}
+        {tab === 1 && <Edges />}
+        {tab === 2 && <Traits />}
         {/* <LinearProgressWithLabel value={0} /> */}
       </Paper>
       

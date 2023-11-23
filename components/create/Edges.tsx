@@ -6,7 +6,7 @@ import { NavigateNext, NavigateBefore } from '@mui/icons-material';
 import { playableSpecies } from '../../data/create/playableSpecies';
 import { portraits } from '../../data/create/portraits';
 
-export default function Create() {
+export default function Edges() {
     const [ store, dispatch ] = useContext(Context);
     const playerSpecies = store?.playerCharacter.playerSpecies as keyof typeof portraits;
     const portraitArray = portraits[playerSpecies];
@@ -42,12 +42,14 @@ export default function Create() {
             >
             {playableSpecies.map((option) => (
                 <option key={option.value} value={option.value}>
-                    {option.label}
+                {option.label}
                 </option>
             ))}
             </TextField>
-            <Typography className="basics__heading" variant="h6">Portrait</Typography>
-            <Card className="portrait">
+            <Card className="portrait" component="figure">
+                <CardContent className="heading">
+                    <Typography className="heading__text" variant="h6">Portrait</Typography>
+                </CardContent>
                 <CardMedia
                     className="portrait__image"
                     component="img"
@@ -59,8 +61,7 @@ export default function Create() {
                     }
                     alt=""
                 />
-            </Card>
-            <Box className="controls" sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+                <Box className="controls" sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
                 <IconButton
                     className="controls__button controls__button_prev"
                     aria-label="previous"
@@ -91,24 +92,8 @@ export default function Create() {
                 >
                     <NavigateNext className="controls__icon controls__icon_prev" />
                 </IconButton>
-            </Box>
-            <Box className="features">
-                <Typography variant="h6" sx={{ mb: 1 }}>
-                    Features
-                 </Typography>
-                {playableSpecies
-                    .find(species => species.value === store.playerCharacter.playerSpecies)
-                    ?.features.map((feature, index) => (
-                        <Box key={index} sx={{ mb: 2 }}>
-                            <Typography sx={{ mb: 1 }}>
-                                {feature.heading}
-                            </Typography>
-                            <Typography>
-                                {feature.text}
-                            </Typography>
-                        </Box>
-                ))}
-            </Box>
+                </Box>
+            </Card>
         </Stack>
     )
 }

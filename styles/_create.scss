@@ -4,12 +4,7 @@
 .create{
     @include mixins.default-grid;
     grid-auto-rows: max-content;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    padding: 5rem 1rem 0rem;
+    padding: 2rem 1rem 0rem;
 
     &__heading{
         color: whitesmoke;
