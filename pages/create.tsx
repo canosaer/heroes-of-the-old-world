@@ -44,10 +44,10 @@ export default function Create() {
       <DataLoader />
       <Typography className="create__heading" variant="h4" textAlign="center">Character Creation</Typography>
       <Paper className="chargen" component="section">
-        <Tabs value={tab} onChange={switchTab} centered>
-          <Tab label="Basics" />
-          <Tab label="Edges" />
-          <Tab label="Traits" />
+        <Tabs className="sections" value={tab} onChange={switchTab} centered>
+          <Tab className="sections__tab" label="Basics" />
+          <Tab className="sections__tab" label="Edges" />
+          <Tab className="sections__tab" label="Traits" />
         </Tabs>
         {tab === 0 && <Basics />}
         {tab === 1 && <Edges />}

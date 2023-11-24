@@ -1,5 +1,5 @@
-@use 'variables';
-@use 'mixins';
+@use '../variables';
+@use '../mixins';
 
 .create{
     @include mixins.default-grid;
@@ -15,4 +15,9 @@
         margin-top: 2rem;
         padding: 1rem;
     }
+
+    .sections{
+        margin-bottom: 1.4rem;
+    }
+
 }

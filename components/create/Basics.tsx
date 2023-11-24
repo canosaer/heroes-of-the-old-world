@@ -15,7 +15,7 @@ export default function Create() {
     if (portraitArray && portraitArray.length > 0) {
         dispatch ({ type: 'SET_PORTRAIT', payload: 0 })
     }
-    }, [portraitArray]);
+    }, [portraitArray, dispatch]);
 
     // useEffect(() => {
     //     console.log(store)
@@ -24,13 +24,13 @@ export default function Create() {
     return (
         <Stack className="basics" component="form" noValidate autoComplete="off">
             <TextField 
-                className="basics__name" 
+                className="name" 
                 component="data" label="Name" 
                 value={store.playerCharacter.name} 
                 onChange={(e) => dispatch ({ type: 'SET_NAME', payload: e.target.value })}
             />
             <TextField 
-                className="basics__species" 
+                className="species" 
                 component="data" 
                 select 
                 label="Species" 
@@ -41,69 +41,71 @@ export default function Create() {
                 onChange={(e) => dispatch ({ type: 'SET_SPECIES', payload: e.target.value as "human" | "dwarf" | "drake" | "elf" })}
             >
             {playableSpecies.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option className="species__option" key={option.value} value={option.value}>
                     {option.label}
                 </option>
             ))}
             </TextField>
-            <Typography className="basics__heading" variant="h6">Portrait</Typography>
-            <Card className="portrait">
-                <CardMedia
-                    className="portrait__image"
-                    component="img"
-                    sx={{ width: 151 }}
-                    image={
-                        portraitArray
-                            ? portraitArray[store.playerCharacter.playerPortraitIndex]
-                            : ''
-                    }
-                    alt=""
-                />
-            </Card>
-            <Box className="controls" sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                <IconButton
-                    className="controls__button controls__button_prev"
-                    aria-label="previous"
-                    onClick={() => {
-                        dispatch({
-                            type: 'SET_PORTRAIT',
-                            payload:
-                                store.playerCharacter.playerPortraitIndex === 0
-                                    ? portraitArray.length - 1
-                                    : store.playerCharacter.playerPortraitIndex - 1
-                        });
-                    }}
-                >
-                    <NavigateBefore className="controls__icon controls__icon_prev" />
-                </IconButton>
-                <IconButton
-                    className="controls__button controls__button_next"
-                    aria-label="next"
-                    onClick={() => {
-                        dispatch({
-                            type: 'SET_PORTRAIT',
-                            payload:
-                                store.playerCharacter.playerPortraitIndex === portraitArray.length - 1
-                                    ? 0
-                                    : store.playerCharacter.playerPortraitIndex + 1
-                        });
-                    }}
-                >
-                    <NavigateNext className="controls__icon controls__icon_prev" />
-                </IconButton>
+            <Box className="portrait">
+                <Typography className="portrait__heading" variant="h6">Portrait</Typography>
+                <Card className="portrait__frame">
+                    <CardMedia
+                        className="portrait__image"
+                        component="img"
+                        sx={{ width: 151 }}
+                        image={
+                            portraitArray
+                                ? portraitArray[store.playerCharacter.playerPortraitIndex]
+                                : ''
+                        }
+                        alt=""
+                    />
+                </Card>
+                <Box className="controls" sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+                    <IconButton
+                        className="controls__button controls__button_prev"
+                        aria-label="previous"
+                        onClick={() => {
+                            dispatch({
+                                type: 'SET_PORTRAIT',
+                                payload:
+                                    store.playerCharacter.playerPortraitIndex === 0
+                                        ? portraitArray.length - 1
+                                        : store.playerCharacter.playerPortraitIndex - 1
+                            });
+                        }}
+                    >
+                        <NavigateBefore className="controls__icon controls__icon_prev" />
+                    </IconButton>
+                    <IconButton
+                        className="controls__button controls__button_next"
+                        aria-label="next"
+                        onClick={() => {
+                            dispatch({
+                                type: 'SET_PORTRAIT',
+                                payload:
+                                    store.playerCharacter.playerPortraitIndex === portraitArray.length - 1
+                                        ? 0
+                                        : store.playerCharacter.playerPortraitIndex + 1
+                            });
+                        }}
+                    >
+                        <NavigateNext className="controls__icon controls__icon_prev" />
+                    </IconButton>
+                </Box>
             </Box>
             <Box className="features">
-                <Typography variant="h6" sx={{ mb: 1 }}>
+                <Typography className="features__heading" variant="h6" sx={{ mb: 1 }}>
                     Features
                  </Typography>
                 {playableSpecies
                     .find(species => species.value === store.playerCharacter.playerSpecies)
                     ?.features.map((feature, index) => (
-                        <Box key={index} sx={{ mb: 2 }}>
-                            <Typography sx={{ mb: 1 }}>
+                        <Box className="item" key={index} sx={{ mb: 2 }}>
+                            <Typography className="item__heading" sx={{ mb: 1 }}>
                                 {feature.heading}
                             </Typography>
-                            <Typography>
+                            <Typography className="item__text">
                                 {feature.text}
                             </Typography>
                         </Box>
