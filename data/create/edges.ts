@@ -1,13 +1,15 @@
 export const edges = {
   N: [
     {
-      name: "Ace",
-      requirements: "Ad8",
-      summary: "Character may spend Bennies to Soak damage for his vehicle and ignores up to 2 points of penalties."
-    },
-    {
       name: "Acrobat",
-      requirements: "Ad8, Athletics d8",
+      requirements: {
+        attributes: {
+          agility: 8,
+        },
+        skills: {
+          athletics: 8,
+        }
+      },
       summary: "Free reroll on acrobatic Athletics attempts."
     },
     {
@@ -18,11 +20,11 @@ export const edges = {
     {
       name: "Ambidextrous",
       requirements: {
-        traits: {
+        attributes: {
           agility: 8,
         },
       },
-      summary: "Ignore –2 penalty when making Trait rolls with off-hand."
+      summary: "Ignore -2 penalty when making Trait rolls with off-hand."
     },
     {
       name: "Arcane Background",
@@ -32,18 +34,11 @@ export const edges = {
     {
       name: "Arcane Resistance",
       requirements: {
-        traits: {
+        attributes: {
           spirit: 8,
         },
       },
       summary: "+2 to Trait rolls to resist magical effects; magical damage is reduced by 2."
-    },
-    {
-      name: "Improved Arcane Resistance",
-      requirements: {
-        edges: "Arcane Resistance",
-      },
-      summary: "+4 to Trait rolls to resist magical effects; magical damage is reduced by 4."
     },
     {
       name: "Aristocrat",
@@ -51,20 +46,26 @@ export const edges = {
       summary: "+2 to Common Knowledge and networking with the upper class."
     },
     {
+      name: "Assassin",
+      requirements: {
+        attributes: {
+          agility: 8,
+        },
+        skills: {
+          fighting: 6,
+          stealth: 8,
+        }
+      },
+      summary: "+2 to damage foes when Vulnerable or assassin has The Drop."
+    },
+    {
       name: "Attractive",
       requirements: {
-        traits: {
+        attributes: {
           vigor: 6,
         },
       },
       summary: "+1 to Performance and Persuasion rolls."
-    },
-    {
-      name: "Very Attractive",
-      requirements: {
-        edges: ["Attractive",],
-      },
-      summary: "+2 to Performance and Persuasion rolls."
     },
     {
       name: "Berserk",
@@ -74,7 +75,7 @@ export const edges = {
     {
       name: "Brave",
       requirements: {
-        traits: {
+        attributes: {
           spirit: 6,
         },
       },
@@ -83,7 +84,7 @@ export const edges = {
     {
       name: "Brawny",
       requirements: {
-        traits: {
+        attributes: {
           strength: 6,
           vigor: 6,
         },
@@ -93,7 +94,7 @@ export const edges = {
     {
       name: "Brawler",
       requirements: {
-        traits: {
+        attributes: {
           strength: 8,
           vigor: 8,
         },
@@ -103,7 +104,7 @@ export const edges = {
     {
       name: "Brute",
       requirements: {
-        traits: {
+        attributes: {
           strength: 6,
           vigor: 6,
         },
@@ -113,7 +114,7 @@ export const edges = {
     {
       name: "Calculating",
       requirements: {
-        traits: {
+        attributes: {
           smarts: 8,
         },
       },
@@ -122,23 +123,30 @@ export const edges = {
     {
       name: "Charismatic",
       requirements: {
-        traits: {
+        attributes: {
           spirit: 8,
         },
       },
       summary: "Free reroll when using Persuasion."
     },
     {
+      name: "Command",
+      requirements: {
+        attributes: {
+          smarts: 6,
+        },
+      },
+      summary: "+1 to Extras' Shaken recovery rolls in Command Range."
+    },
+    {
       name: "Dead Shot",
       requirements: {
-        traits: {
-          skills: {
-            either: {
-              athletics: 8,
-              shooting: 8,
-            },
-          }
-        },
+        skills: {
+          either: {
+            athletics: 8,
+            shooting: 8,
+          },
+        }
       },
       summary: "Once per turn, double damage from Athletics (throwing) or Shooting roll when dealt a Joker."
     },
@@ -150,7 +158,7 @@ export const edges = {
     {
       name: "Elan",
       requirements: {
-          traits: {
+          attributes: {
             spirit: 8,
           },
       },
@@ -159,7 +167,7 @@ export const edges = {
     {
       name: "Extraction",
       requirements: {
-          traits: {
+          attributes: {
             agility: 8,
           },
       },
@@ -180,7 +188,7 @@ export const edges = {
     {
       name: "Fast Healer",
       requirements: {
-        traits: {
+        attributes: {
           vigor: 8,
         },
       },
@@ -189,11 +197,9 @@ export const edges = {
     {
       name: "Feint",
       requirements: {
-          traits: {
-            skills: {
-              fighting: 8,
-            }
-          },
+        skills: {
+          fighting: 8,
+        }
       },
       summary: "You may choose to make foe resist with Smarts instead of Agility during a Fighting Test."
     },
@@ -207,7 +213,7 @@ export const edges = {
     {
       name: "First Strike",
       requirements: {
-        traits: {
+        attributes: {
           agility: 8,
         },
     },
@@ -216,11 +222,20 @@ export const edges = {
     {
       name: "Fleet-Footed",
       requirements: {
-        traits: {
+        attributes: {
           agility: 6,
         },
       },
       summary: "Pace +2, increase running die one step."
+    },
+    {
+      name: "Free Runner",
+      requirements: {
+        attributes: {
+          agility: 8,
+        },
+      },
+      summary: "Ignore Difficult Ground and add +2 to Athletics in foot chases."
     },
     {
       name: "Great Luck",
@@ -230,9 +245,64 @@ export const edges = {
       summary: "+2 Bennies at the start of each session."
     },
     {
+      name: "Hard to Kill",
+      requirements: {
+        attributes: {
+          spirit: 8,
+        },
+      },
+      summary: "Ignore Wound penalties when making Vigor rolls to avoid Bleeding Out."
+    },
+    {
+      name: "Improved Arcane Resistance",
+      requirements: {
+        edges: ["Arcane Resistance",],
+      },
+      summary: "+4 to Trait rolls to resist magical effects; magical damage is reduced by 4."
+    },
+    {
+      name: "Improved Nerves of Steel",
+      requirements: {
+        edges: ["Nerves of Steel",],
+      },
+      summary: "Ignore up to two levels of Wound penalties."
+    },
+    {
+      name: "Investigator",
+      requirements: {
+        attributes: {
+          smarts: 8,
+        },
+        skills: {
+          research: 8,
+        }
+      },
+      summary: "+2 to Research and certain types of Notice rolls."
+    },
+    {
+      name: "Iron Jaw",
+      requirements: {
+        attributes: {
+          vigor: 8,
+        },
+      },
+      summary: "+2 to Soak and Vigor rolls to avoid Knockout Blows."
+    },
+    {
+      name: "Jack-of-all-Trades",
+      requirements: {
+        attributes: {
+          smarts: 10,
+        },
+      },
+      summary: "Gain d4 in a skill (or d6 with a raise) until replaced."
+    },
+    {
       name: "Linguist",
       requirements: {
-        Smarts: 6,
+        attributes: {
+          smarts: 6,
+        },
       },
       summary: "Character has d6 in languages equal to half her Smarts die."
     },
@@ -242,18 +312,151 @@ export const edges = {
       summary: "+1 Benny at the start of each session."
     },
     {
+      name: "Martial Artist",
+      requirements: {
+        skills: {
+          fighting: 6,
+        },
+      },
+      summary: "Unarmed Fighting +1, fists and feet count as Natural Weapons, add d4 damage die to unarmed Fighting attacks (or increase die a step if you already have it)."
+    },
+    {
+      name: "McGyver",
+      requirements: {
+        attributes: {
+          smarts: 6,
+        },
+        skills: {
+          repair: 6,
+          notice: 8,
+        }
+      },
+      summary: "Quickly create improvised devices from scraps."
+    },
+    {
+      name: "Mighty Blow",
+      requirements: {
+        skills: {
+          fighting: 8,
+        },
+      },
+      summary: "Once per turn, double Fighting damage when dealt a Joker."
+    },
+    {
+      name: "Mr. Fix It",
+      requirements: {
+        skills: {
+          repair: 8,
+        },
+      },
+      summary: "+2 to Repair rolls, half the time required with a raise."
+    },
+    {
+      name: "Nerves of Steel",
+      requirements: {
+        attributes: {
+          vigor: 8,
+        },
+      },
+      summary: "Ignore one level of Wound penalties."
+    },
+    {
       name: "Rich",
       requirements: {},
       summary: "Character starts with three times the starting gold."
     },
     {
-      name: "Quick",
+      name: "Scholar",
       requirements: {
-        traits: {
+        attributes: {
           agility: 8,
         },
       },
+      summary: '+2 to any one “knowledge” skill.'
+    },
+    {
+      name: "Soldier",
+      requirements: {
+        attributes: {
+          strength: 6,
+          vigor: 6,
+        },
+      },
+      summary: "Strength is one die type higher for Encumbrance and Min Str. Reroll Vigor rolls when resisting environmental Hazards."
+    },
+    {
+      name: "Steady Hands",
+      requirements: {
+        attributes: {
+          agility: 8,
+        },
+      },
+      summary: "Ignore Unstable Platform penalty; reduce running penalty to -1."
+    },
+    {
+      name: "Sweep",
+      requirements: {
+        attributes: {
+          strength: 8,
+        },
+        skills: {
+          fighting: 8,
+        }
+      },
+      summary: "Fighting roll at -2 to hit all targets in weapon's Reach, no more than once per turn."
+    },
+    {
+      name: "Thief",
+      requirements: {
+        attributes: {
+          agility: 8,
+        },
+        skills: {
+          stealth: 6,
+          thievery: 6,
+        }
+      },
+      summary: "+1 Thievery, Athletics rolls made to climb, Stealth in urban environments."
+    },
+    {
+      name: "Two-Fisted",
+      requirements: {
+        attributes: {
+          strength: 8,
+        },
+        skills: {
+          fighting: 8,
+        }
+      },
+      summary: "Make one extra Fighting roll with a second melee weapon in the off-hand at no Multi-Action."
+    },
+    {
+      name: "Quick",
+      requirements: {
+        attributes: {
+          smarts: 6,
+        },
+      },
       summary: "The hero may discard and redraw Action Cards of 5 or lower."
+    },
+    {
+      name: "Very Attractive",
+      requirements: {
+        edges: ["Attractive",],
+      },
+      summary: "+2 to Performance and Persuasion rolls."
+    },
+    {
+      name: "Woodsman",
+      requirements: {
+        attributes: {
+          spirit: 6,
+        },
+        skills: {
+          survival: 8,
+        }
+      },
+      summary: "+2 to Performance and Persuasion rolls."
     },
   ]
 }
