@@ -27,6 +27,15 @@ export const edges = {
       summary: "Ignore -2 penalty when making Trait rolls with off-hand."
     },
     {
+      name: "Animal Tamer",
+      requirements: {
+        attributes: {
+          spirit: 8,
+        },
+      },
+      summary: "Animals like your hero and he has a pet of some sort."
+    },
+    {
       name: "Arcane Background",
       requirements: {},
       summary: "Allows access to the Arcane Backgrounds listed in Chapter Five."
@@ -135,6 +144,18 @@ export const edges = {
       summary: "Ignore up to 2 points of penalties on one action with an Action Card of Five or less."
     },
     {
+      name: "Champion",
+      requirements: {
+        attributes: {
+          spirit: 8,
+        },
+        skills: {
+          fighting: 6,
+        }
+      },
+      summary: "+2 damage vs. supernaturally evil creatures."
+    },
+    {
       name: "Charismatic",
       requirements: {
         attributes: {
@@ -165,6 +186,11 @@ export const edges = {
       name: "Connections",
       requirements: {},
       summary: "Contacts provide aid or other favor."
+    },
+    {
+      name: "Danger Sense",
+      requirements: {},
+      summary: "Notice roll at +2 to sense ambushes or similar events."
     },
     {
       name: "Dead Shot",
@@ -282,6 +308,15 @@ export const edges = {
       summary: "Ignore Wound penalties when making Vigor rolls to avoid Bleeding Out."
     },
     {
+      name: "Healer",
+      requirements: {
+        attributes: {
+          spirit: 8,
+        },
+      },
+      summary: "+2 to Healing rolls, magical or otherwise."
+    },
+    {
       name: "Humiliate",
       requirements: {
         skills: {
@@ -351,6 +386,15 @@ export const edges = {
         },
       },
       summary: "Character has d6 in languages equal to half her Smarts die."
+    },
+    {
+      name: "Liquid Courage",
+      requirements: {
+        attributes: {
+          smarts: 6,
+        },
+      },
+      summary: "Alcohol increases Vigor and ignores one level of Wound penalty; -1 to Agility, Smarts, and related skills."
     },
     {
       name: "Luck",
@@ -446,6 +490,13 @@ export const edges = {
       name: "Rich",
       requirements: {},
       summary: "Character starts with three times the starting gold."
+    },
+    {
+      name: "Scavenger",
+      requirements: {
+        edges: ['Luck',],
+      },
+      summary: 'More likely to find hidden loot and treasure.'
     },
     {
       name: "Scholar",

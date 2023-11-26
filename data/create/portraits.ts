@@ -47,7 +47,7 @@ export const portraits = {
         `${h}necromancer-female${w}`,
         `${h}outlaw-female${w}`,
         `${h}outlaw${w}`,
-        `${h}peasant${w}`,
+        // `${h}peasant${w}`,
         `${h}pikeman${w}`,
         `${h}ranger${w}`,
         `${h}rover${w}`,

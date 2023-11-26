@@ -9,11 +9,22 @@
     &__heading{
         color: whitesmoke;
         font-family: 'Prata', serif;
+        
     }
 
     .chargen{
         margin-top: 2rem;
         padding: 1rem;
+
+        &__heading{
+            font-family: 'Prata', serif;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+    }
+
+    .stepper{
+        padding-bottom: 0.25rem;
     }
 
     .sections{

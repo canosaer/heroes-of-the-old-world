@@ -3,37 +3,50 @@ NAME: create
 DESCRIPTION:
 */
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useState, useEffect, useContext } from 'react';
+import { Context } from '../context/store';
 import { Box } from '@mui/system';
 import DataLoader from '../components/DataLoader';
-import { Typography, Paper, Stack, Button, TextField, Card, CardContent, CardMedia, IconButton, Tabs, Tab } from '@mui/material';
+import { Typography, Paper, Button, TextField, MobileStepper } from '@mui/material';
 import { NavigateNext, NavigateBefore } from '@mui/icons-material';
-import { playableSpecies } from '../data/create/playableSpecies'
-import { portraits } from '../data/create/portraits'
-import LinearProgressWithLabel from '../components/create/LinearProgressWithLabel';
-import Basics from '../components/create/Basics'
-import Edges from '../components/create/Edges'
-import Traits from '../components/create/Traits'
+import { portraits } from '../data/create/portraits';
+import Basics from '../components/create/Basics';
+import Edges from '../components/create/Edges';
+import Traits from '../components/create/Traits';
+import Spells from '../components/create/Spells';
 
 export default function Create() {
-  const [name, setName] = useState('');
-  const [playerSpecies, setPlayerSpecies] = useState<keyof typeof portraits>('human');
-  const [playerPortraitIndex, setPlayerPortraitIndex] = useState(0);
-  const [tab, setTab] = useState(0);
+  const [ store, dispatch ] = useContext(Context);
+  const [ activeStep, setActiveStep] = useState(0);
 
-  const portraitArray = portraits[playerSpecies];
+  const numSteps = store.playerCharacter.edges.includes('Arcane Background') ? 4 : 3
 
-  const switchTab = (event: React.SyntheticEvent, newValue: number) => {
-    setTab(newValue);
+  // Define heading text based on activeStep
+  let headingText = 'Basics';
+  switch (activeStep) {
+    case 0:
+      headingText = 'Basics';
+      break;
+    case 1:
+      headingText = 'Traits';
+      break;
+    case 2:
+      headingText = 'Edges';
+      break;
+    case 3:
+      headingText = 'Spells';
+      break;
+    default:
+      break;
+  }
+
+  const advanceStep = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  useEffect(() => {
-    if (portraitArray && portraitArray.length > 0) {
-      setPlayerPortraitIndex(0);
-    }
-  }, [portraitArray]);
+  const returnStep = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
 
   // useEffect(() => {
   //   console.log(tab)
@@ -44,15 +57,29 @@ export default function Create() {
       <DataLoader />
       <Typography className="create__heading" variant="h4" textAlign="center">Character Creation</Typography>
       <Paper className="chargen" component="section">
-        <Tabs className="sections" value={tab} onChange={switchTab} centered>
-          <Tab className="sections__tab" label="Basics" />
-          <Tab className="sections__tab" label="Edges" />
-          <Tab className="sections__tab" label="Traits" />
-        </Tabs>
-        {tab === 0 && <Basics />}
-        {tab === 1 && <Edges />}
-        {tab === 2 && <Traits />}
-        {/* <LinearProgressWithLabel value={0} /> */}
+        <MobileStepper
+          className="stepper"
+          variant="dots"
+          steps={numSteps}
+          position="static"
+          activeStep={activeStep}
+          sx={{ maxWidth: 400, flexGrow: 1 }}
+          nextButton={
+            <Button size="small" onClick={advanceStep} disabled={activeStep === numSteps - 1}>
+              <NavigateNext />
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={returnStep} disabled={activeStep === 0}>
+              <NavigateBefore />
+            </Button>
+          }
+        />
+        <Typography className="chargen__heading" variant="h5" textAlign="center">{headingText}</Typography>
+        {activeStep === 0 && <Basics />}
+        {activeStep === 1 && <Traits />}
+        {activeStep === 2 && <Edges />}
+        {activeStep === 3 && <Spells />}
       </Paper>
       
     </Box>
