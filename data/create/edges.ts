@@ -68,9 +68,23 @@ export const edges = {
       summary: "+1 to Performance and Persuasion rolls."
     },
     {
+      name: "Beast Bond",
+      requirements: {},
+      summary: "The hero may spend Bennies for animals under her control."
+    },
+    {
       name: "Berserk",
       requirements: {},
       summary: "After being Shaken or Wounded, melee attacks must be Wild Attacks, +1 die type to Strength, +2 to Toughness, ignore one level of Wound penalties. Take Fatigue after every five consecutive rounds, may choose to end rage with Smarts roll -2."
+    },
+    {
+      name: "Bolster",
+      requirements: {
+        attributes: {
+          spirit: 8,
+        },
+      },
+      summary: "May remove Distracted or Vulnerable state after a Test."
     },
     {
       name: "Brave",
@@ -137,6 +151,20 @@ export const edges = {
         },
       },
       summary: "+1 to Extras' Shaken recovery rolls in Command Range."
+    },
+    {
+      name: "Common Bond",
+      requirements: {
+        attributes: {
+          spirit: 8,
+        },
+      },
+      summary: "The hero may freely give her Bennies to others."
+    },
+    {
+      name: "Connections",
+      requirements: {},
+      summary: "Contacts provide aid or other favor."
     },
     {
       name: "Dead Shot",
@@ -254,6 +282,15 @@ export const edges = {
       summary: "Ignore Wound penalties when making Vigor rolls to avoid Bleeding Out."
     },
     {
+      name: "Humiliate",
+      requirements: {
+        skills: {
+          taunt: 8,
+        },
+      },
+      summary: "Free reroll when making Taunt rolls."
+    },
+    {
       name: "Improved Arcane Resistance",
       requirements: {
         edges: ["Arcane Resistance",],
@@ -287,6 +324,15 @@ export const edges = {
         },
       },
       summary: "+2 to Soak and Vigor rolls to avoid Knockout Blows."
+    },
+    {
+      name: "Iron Will",
+      requirements: {
+        attributes: {
+          spirit: 8,
+        },
+      },
+      summary: "+2 to resisting and recovery from magic."
     },
     {
       name: "Jack-of-all-Trades",
@@ -334,6 +380,15 @@ export const edges = {
       summary: "Quickly create improvised devices from scraps."
     },
     {
+      name: "Menacing",
+      requirements: {
+        skills: {
+          persuasion: -4,
+        }
+      },
+      summary: "+2 to Intimidation."
+    },
+    {
       name: "Mighty Blow",
       requirements: {
         skills: {
@@ -359,6 +414,33 @@ export const edges = {
         },
       },
       summary: "Ignore one level of Wound penalties."
+    },
+    {
+      name: "Provoke",
+      requirements: {
+        skills: {
+          taunt: 6,
+        },
+      },
+      summary: "May “provoke” foes with a raise on a Taunt roll."
+    },
+    {
+      name: "Reliable",
+      requirements: {
+        attributes: {
+          spirit: 8,
+        },
+      },
+      summary: "Free reroll when making Support rolls."
+    },
+    {
+      name: "Retort",
+      requirements: {
+        skills: {
+          taunt: 6,
+        },
+      },
+      summary: "A raise when resisting a Taunt or Intimidation attack makes the foe Distracted."
     },
     {
       name: "Rich",
@@ -392,6 +474,24 @@ export const edges = {
         },
       },
       summary: "Ignore Unstable Platform penalty; reduce running penalty to -1."
+    },
+    {
+      name: "Streetwise",
+      requirements: {
+        attributes: {
+          smarts: 6,
+        },
+      },
+      summary: "+2 to Common Knowledge and criminal networking."
+    },
+    {
+      name: "Strong Willed",
+      requirements: {
+        attributes: {
+          spirit: 8,
+        },
+      },
+      summary: "+2 to resist Smarts or Spirit-based Tests."
     },
     {
       name: "Sweep",
@@ -456,7 +556,7 @@ export const edges = {
           survival: 8,
         }
       },
-      summary: "+2 to Performance and Persuasion rolls."
+      summary: "+2 to Survival and Stealth in the wilds."
     },
   ]
 }
