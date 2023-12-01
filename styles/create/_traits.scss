@@ -1,0 +1,10 @@
+@use '../variables';
+@use '../mixins';
+
+.traits{
+    .attribute{
+        &__heading{
+            background-color: white;
+        }
+    }
+}
