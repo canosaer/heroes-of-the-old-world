@@ -44,6 +44,20 @@ const reducer = (state: TypesData, action: Action): TypesData => {
                 }
                 
             };
+        case 'SET_AGILITY':
+            return {
+                ...state,
+                playerCharacter: {
+                    ...state.playerCharacter,
+                    traits: {
+                        ...state.playerCharacter.traits,
+                        agility: {
+                            ...state.playerCharacter.traits.agility,
+                            rank: action.payload
+                        }
+                    }
+                }
+            };
         default:
             return state;
     }

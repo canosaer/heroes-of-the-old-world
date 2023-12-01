@@ -17,28 +17,28 @@ const data: TypesData = {
         ],
         traits: {
             agility: {
-                rank: 4,
+                rank: 1,
                 skills: {
-                    athletics: 4,
+                    athletics: 1,
                 }
             },
             smarts: {
-                rank: 4,
+                rank: 1,
                 skills: {
-                    notice: 4,
+                    notice: 1,
                 }
             },
             spirit: {
-                rank: 4,
+                rank: 1,
                 skills: {
-                    persuasion: 4,
+                    persuasion: 1,
                 }
             },
             strength: {
-                rank: 4,
+                rank: 1,
             },
             vigor: {
-                rank: 4,
+                rank: 1,
             },
         },
         powers: [
