@@ -9,7 +9,6 @@ import { Box } from '@mui/system';
 import DataLoader from '../components/DataLoader';
 import { Typography, Paper, Button, TextField, MobileStepper } from '@mui/material';
 import { NavigateNext, NavigateBefore } from '@mui/icons-material';
-import { portraits } from '../data/create/portraits';
 import Basics from '../components/create/Basics';
 import Edges from '../components/create/Edges';
 import Traits from '../components/create/Traits';

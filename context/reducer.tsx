@@ -58,6 +58,62 @@ const reducer = (state: TypesData, action: Action): TypesData => {
                     }
                 }
             };
+        case 'SET_SMARTS':
+            return {
+                ...state,
+                playerCharacter: {
+                    ...state.playerCharacter,
+                    traits: {
+                        ...state.playerCharacter.traits,
+                        smarts: {
+                            ...state.playerCharacter.traits.smarts,
+                            rank: action.payload
+                        }
+                    }
+                }
+            };
+        case 'SET_STRENGTH':
+            return {
+                ...state,
+                playerCharacter: {
+                    ...state.playerCharacter,
+                    traits: {
+                        ...state.playerCharacter.traits,
+                        strength: {
+                            ...state.playerCharacter.traits.strength,
+                            rank: action.payload
+                        }
+                    }
+                }
+            };
+        case 'SET_SPIRIT':
+            return {
+                ...state,
+                playerCharacter: {
+                    ...state.playerCharacter,
+                    traits: {
+                        ...state.playerCharacter.traits,
+                        spirit: {
+                            ...state.playerCharacter.traits.spirit,
+                            rank: action.payload
+                        }
+                    }
+                }
+            };
+        case 'SET_VIGOR':
+            return {
+                ...state,
+                playerCharacter: {
+                    ...state.playerCharacter,
+                    traits: {
+                        ...state.playerCharacter.traits,
+                        vigor: {
+                            ...state.playerCharacter.traits.vigor,
+                            rank: action.payload
+                        }
+                    }
+                }
+            };
         default:
             return state;
     }
