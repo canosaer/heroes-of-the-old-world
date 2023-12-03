@@ -3,8 +3,8 @@ import { Context } from '../../context/store';
 import { Box } from '@mui/system';
 import { Typography, Stack, TextField, Card, CardContent, CardMedia, IconButton } from '@mui/material';
 import { NavigateNext, NavigateBefore } from '@mui/icons-material';
-import { playableSpecies } from '../../data/create/playableSpecies';
-import { portraits } from '../../data/create/portraits';
+import { playableSpecies } from '../../data/characters/playableSpecies';
+import { portraits } from '../../data/characters/portraits';
 
 export default function Create() {
     const [ store, dispatch ] = useContext(Context);

@@ -31,7 +31,7 @@ export default function Traits() {
                         const clampedValue = typeof newValue === 'number' ? 
                             newValue < 1 ? 1 : newValue
                             : 1; // Default to 1 if newValue is null
-                        dispatch({ type: 'SET_AGILITY', payload: clampedValue });
+                        dispatch({ type: 'UPDATE_AGILITY', payload: clampedValue });
                     }}
                     max={store.playerCharacter.traits.agility.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.agility.rank + attributePoints}
                 />
@@ -45,7 +45,7 @@ export default function Traits() {
                         const clampedValue = typeof newValue === 'number' ? 
                             newValue < 1 ? 1 : newValue
                             : 1; // Default to 1 if newValue is null
-                        dispatch({ type: 'SET_SMARTS', payload: clampedValue });
+                        dispatch({ type: 'UPDATE_SMARTS', payload: clampedValue });
                     }}
                     max={store.playerCharacter.traits.smarts.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.smarts.rank + attributePoints}
                 />
@@ -59,7 +59,7 @@ export default function Traits() {
                         const clampedValue = typeof newValue === 'number' ? 
                             newValue < 1 ? 1 : newValue
                             : 1; // Default to 1 if newValue is null
-                        dispatch({ type: 'SET_SPIRIT', payload: clampedValue });
+                        dispatch({ type: 'UPDATE_SPIRIT', payload: clampedValue });
                     }}
                     max={store.playerCharacter.traits.spirit.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.spirit.rank + attributePoints}
                 />
@@ -73,7 +73,7 @@ export default function Traits() {
                         const clampedValue = typeof newValue === 'number' ? 
                             newValue < 1 ? 1 : newValue
                             : 1; // Default to 1 if newValue is null
-                        dispatch({ type: 'SET_STRENGTH', payload: clampedValue });
+                        dispatch({ type: 'UPDATE_STRENGTH', payload: clampedValue });
                     }}
                     max={store.playerCharacter.traits.strength.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.strength.rank + attributePoints}
                 />
@@ -87,7 +87,7 @@ export default function Traits() {
                         const clampedValue = typeof newValue === 'number' ? 
                             newValue < 1 ? 1 : newValue
                             : 1; // Default to 1 if newValue is null
-                        dispatch({ type: 'SET_VIGOR', payload: clampedValue });
+                        dispatch({ type: 'UPDATE_VIGOR', payload: clampedValue });
                     }}
                     max={store.playerCharacter.traits.vigor.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.vigor.rank + attributePoints}
                 />

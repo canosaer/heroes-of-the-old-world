@@ -44,7 +44,7 @@ const reducer = (state: TypesData, action: Action): TypesData => {
                 }
                 
             };
-        case 'SET_AGILITY':
+        case 'UPDATE_AGILITY':
             return {
                 ...state,
                 playerCharacter: {
@@ -53,12 +53,30 @@ const reducer = (state: TypesData, action: Action): TypesData => {
                         ...state.playerCharacter.traits,
                         agility: {
                             ...state.playerCharacter.traits.agility,
-                            rank: action.payload
-                        }
-                    }
-                }
+                            rank: action.payload,
+                        },
+                    },
+                },
             };
-        case 'SET_SMARTS':
+        case 'UPDATE_AGILITY_SKILL':
+            const { agilitySkill, agilityValue } = action.payload;
+            return {
+                ...state,
+                playerCharacter: {
+                    ...state.playerCharacter,
+                    traits: {
+                        ...state.playerCharacter.traits,
+                        agility: {
+                            ...state.playerCharacter.traits.agility,
+                            skills: {
+                                ...state.playerCharacter.traits.agility.skills,
+                                [agilitySkill]: agilityValue,
+                            },
+                        },
+                    },
+                },
+            };
+        case 'UPDATE_SMARTS':
             return {
                 ...state,
                 playerCharacter: {
@@ -67,26 +85,30 @@ const reducer = (state: TypesData, action: Action): TypesData => {
                         ...state.playerCharacter.traits,
                         smarts: {
                             ...state.playerCharacter.traits.smarts,
-                            rank: action.payload
-                        }
-                    }
-                }
+                            rank: action.payload,
+                        },
+                    },
+                },
             };
-        case 'SET_STRENGTH':
+        case 'UPDATE_SMARTS_SKILL':
+            const { smartsSkill, smartsValue } = action.payload;
             return {
                 ...state,
                 playerCharacter: {
                     ...state.playerCharacter,
                     traits: {
                         ...state.playerCharacter.traits,
-                        strength: {
-                            ...state.playerCharacter.traits.strength,
-                            rank: action.payload
-                        }
-                    }
-                }
+                        smarts: {
+                            ...state.playerCharacter.traits.smarts,
+                            skills: {
+                                ...state.playerCharacter.traits.smarts.skills,
+                                [smartsSkill]: smartsValue,
+                            },
+                        },
+                    },
+                },
             };
-        case 'SET_SPIRIT':
+        case 'UPDATE_SPIRIT':
             return {
                 ...state,
                 playerCharacter: {
@@ -95,12 +117,44 @@ const reducer = (state: TypesData, action: Action): TypesData => {
                         ...state.playerCharacter.traits,
                         spirit: {
                             ...state.playerCharacter.traits.spirit,
-                            rank: action.payload
-                        }
-                    }
-                }
+                            rank: action.payload,
+                        },
+                    },
+                },
             };
-        case 'SET_VIGOR':
+        case 'UPDATE_SPIRIT_SKILL':
+            const { spiritSkill, spiritValue } = action.payload;
+            return {
+                ...state,
+                playerCharacter: {
+                    ...state.playerCharacter,
+                    traits: {
+                        ...state.playerCharacter.traits,
+                        spirit: {
+                            ...state.playerCharacter.traits.spirit,
+                            skills: {
+                                ...state.playerCharacter.traits.spirit.skills,
+                                [spiritSkill]: spiritValue,
+                            },
+                        },
+                    },
+                },
+            };
+        case 'UPDATE_STRENGTH':
+            return {
+                ...state,
+                playerCharacter: {
+                    ...state.playerCharacter,
+                    traits: {
+                        ...state.playerCharacter.traits,
+                        strength: {
+                            ...state.playerCharacter.traits.strength,
+                            rank: action.payload,
+                        },
+                    },
+                },
+            };
+        case 'UPDATE_VIGOR':
             return {
                 ...state,
                 playerCharacter: {
@@ -109,11 +163,12 @@ const reducer = (state: TypesData, action: Action): TypesData => {
                         ...state.playerCharacter.traits,
                         vigor: {
                             ...state.playerCharacter.traits.vigor,
-                            rank: action.payload
-                        }
-                    }
-                }
+                            rank: action.payload,
+                        },
+                    },
+                },
             };
+        
         default:
             return state;
     }

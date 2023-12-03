@@ -5,6 +5,7 @@ read and updated with the useContext React hook.
 */
 
 import TypesData from './types';
+import { defaultTraits } from '../data/characters/defaultTraits'
 
 const data: TypesData = {
     data: null,
@@ -16,30 +17,7 @@ const data: TypesData = {
             "",
         ],
         traits: {
-            agility: {
-                rank: 1,
-                skills: {
-                    athletics: 1,
-                }
-            },
-            smarts: {
-                rank: 1,
-                skills: {
-                    notice: 1,
-                }
-            },
-            spirit: {
-                rank: 1,
-                skills: {
-                    persuasion: 1,
-                }
-            },
-            strength: {
-                rank: 1,
-            },
-            vigor: {
-                rank: 1,
-            },
+            ...defaultTraits,
         },
         powers: [
             "",
