@@ -1,11 +1,34 @@
 import { useState, useEffect, useContext } from 'react';
 import { Context } from '../../context/store';
 import { Box } from '@mui/system';
-import { Typography, Stack, TextField, Card, CardContent, CardMedia, IconButton, Rating } from '@mui/material';
+import { Typography, Stack, Card, Button, Rating } from '@mui/material';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip'
+import { styled } from '@mui/material/styles';
+import { defaultTraits } from '../../data/characters/defaultTraits' 
 
 export default function Traits() {
     const [ store, dispatch ] = useContext(Context);
     const [ attributePoints, setAttributePoints ] = useState(5);
+
+    const AttributeTooltip = styled(({ className, ...props }: TooltipProps) => (
+        <Tooltip {...props} classes={{ popper: className }} />
+      ))(({ theme }) => ({
+        [`& .${tooltipClasses.tooltip}`]: {
+          backgroundColor: theme.palette.common.white,
+          color: 'rgba(0, 0, 0, 0.87)',
+          boxShadow: theme.shadows[1],
+          fontSize: 13,
+          maxWidth: 190,
+        },
+    }));
+
+    const handleSkillChange = (skillCategory: string, skillName: string, newValue: number) => {
+        dispatch({ type: `UPDATE_${skillCategory.toUpperCase()}_SKILL`, payload: { skillName, skillValue: newValue } });
+    };
+
+    const capitalizeFirstLetter = (incomingString: string) => {
+        return incomingString.charAt(0).toUpperCase() + incomingString.slice(1);
+    };
 
     useEffect(() => {
         let newPointsAvailable = 5;
@@ -22,8 +45,11 @@ export default function Traits() {
     
     return (
         <Stack className="traits" component="form" noValidate autoComplete="off">
-            <Card className="attribute">
-                <Typography className="attribute__heading">Agility</Typography>
+            <Typography className="attributes__heading">Attributes ({attributePoints} bonus point{(attributePoints > 1 || attributePoints == 0) && 's'} left)</Typography>
+            <Card className="attributes">
+                <AttributeTooltip className="attributes__tooltip" placement="right-start" title="Nimbleness, dexterity, and overall physical coordination of muscles and reflexes">
+                    <Typography className="attributes__name">Agility</Typography>
+                </AttributeTooltip>
                 <Rating
                     name="simple-controlled"
                     value={store.playerCharacter.traits.agility.rank}
@@ -35,9 +61,9 @@ export default function Traits() {
                     }}
                     max={store.playerCharacter.traits.agility.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.agility.rank + attributePoints}
                 />
-            </Card>
-            <Card className="attribute">
-                <Typography className="attribute__heading">Smarts</Typography>
+                <AttributeTooltip className="attributes__tooltip" placement="right-start" title="Raw intellect, perception, and ability to sort and make use of complex information">
+                    <Typography className="attributes__name">Smarts</Typography>
+                </AttributeTooltip>
                 <Rating
                     name="simple-controlled"
                     value={store.playerCharacter.traits.smarts.rank}
@@ -49,9 +75,9 @@ export default function Traits() {
                     }}
                     max={store.playerCharacter.traits.smarts.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.smarts.rank + attributePoints}
                 />
-            </Card>
-            <Card className="attribute">
-                <Typography className="attribute__heading">Spirit</Typography>
+                <AttributeTooltip className="attributes__tooltip" placement="right-start" title="Inner strength and willpower">
+                    <Typography className="attributes__name">Spirit</Typography>
+                </AttributeTooltip>
                 <Rating
                     name="simple-controlled"
                     value={store.playerCharacter.traits.spirit.rank}
@@ -63,9 +89,9 @@ export default function Traits() {
                     }}
                     max={store.playerCharacter.traits.spirit.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.spirit.rank + attributePoints}
                 />
-            </Card>
-            <Card className="attribute">
-                <Typography className="attribute__heading">Strength</Typography>
+                <AttributeTooltip className="attributes__tooltip" placement="right-start" title="Raw muscle power">
+                    <Typography className="attributes__name">Strength</Typography>
+                </AttributeTooltip>
                 <Rating
                     name="simple-controlled"
                     value={store.playerCharacter.traits.strength.rank}
@@ -77,9 +103,9 @@ export default function Traits() {
                     }}
                     max={store.playerCharacter.traits.strength.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.strength.rank + attributePoints}
                 />
-            </Card>
-            <Card className="attribute">
-                <Typography className="attribute__heading">Vigor</Typography>
+                <AttributeTooltip className="attributes__tooltip" placement="right-start" title="Endurance, health, and constitution">
+                    <Typography className="attributes__name">Vigor</Typography>
+                </AttributeTooltip>
                 <Rating
                     name="simple-controlled"
                     value={store.playerCharacter.traits.vigor.rank}
@@ -91,6 +117,31 @@ export default function Traits() {
                     }}
                     max={store.playerCharacter.traits.vigor.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.vigor.rank + attributePoints}
                 />
+            </Card>
+            <Card className="skills">
+                {Object.entries(defaultTraits).map(([traitName, trait]) => (
+                    <Box key={traitName}>
+                        {/* Check if the attribute has skills */}
+                        {Object.keys(trait.skills).length > 0 && (
+                            <>
+                                <Typography variant="h6" className="attribute-heading">{capitalizeFirstLetter(traitName)}</Typography>
+                                {Object.entries(trait.skills).map(([skillName, skillValue]) => (
+                                    <Box key={skillName}>
+                                        <AttributeTooltip className="attributes__tooltip" placement="right-start" title={''}>
+                                            <Typography className="attributes__name">{capitalizeFirstLetter(skillName)}</Typography>
+                                        </AttributeTooltip>
+                                        <Rating
+                                            name="simple-controlled"
+                                            value={skillValue}
+                                            onChange={(e, newValue) => newValue !== null && handleSkillChange(traitName, skillName, newValue)}
+                                            max={trait.rank + attributePoints > 5 ? 5 : trait.rank + attributePoints}
+                                        />
+                                    </Box>
+                                ))}
+                            </>
+                        )}
+                    </Box>
+                ))}
             </Card>
         </Stack>
     )

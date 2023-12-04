@@ -2,9 +2,16 @@
 @use '../mixins';
 
 .traits{
-    .attribute{
+    .attributes{
+        @include mixins.default-grid;
+
         &__heading{
-            background-color: white;
+            cursor: default;
+        }
+
+        &__name{
+            width: max-content;
+            cursor: default;
         }
     }
 }
