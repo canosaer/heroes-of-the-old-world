@@ -13,6 +13,7 @@ const data: TypesData = {
         name: "",
         playerSpecies: 'human',
         playerPortraitIndex: 0,
+        skillPoints: 12,
         edges: [
             "",
         ],

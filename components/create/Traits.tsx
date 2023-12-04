@@ -23,6 +23,7 @@ export default function Traits() {
     }));
 
     const handleSkillChange = (skillCategory: string, skillName: string, newValue: number) => {
+        console.log(`skill name: ${skillName}, value: ${newValue}`)
         dispatch({ type: `UPDATE_${skillCategory.toUpperCase()}_SKILL`, payload: { skillName, skillValue: newValue } });
     };
 
@@ -39,7 +40,6 @@ export default function Traits() {
         const vigorPoints = store.playerCharacter.traits.vigor.rank - 1
 
         newPointsAvailable = newPointsAvailable - (agilityPoints + smartsPoints + strengthPoints + spiritPoints + vigorPoints)
-        console.log(newPointsAvailable)
         setAttributePoints(newPointsAvailable)
     }, [store.playerCharacter.traits]);
     
@@ -118,6 +118,7 @@ export default function Traits() {
                     max={store.playerCharacter.traits.vigor.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.vigor.rank + attributePoints}
                 />
             </Card>
+            <Typography className="attributes__heading">Skills ({store.playerCharacter.skillPoints} skill point{(store.playerCharacter.skillPoints > 1 || store.playerCharacter.skillPoints == 0) && 's'} left)</Typography>
             <Card className="skills">
                 {Object.entries(defaultTraits).map(([traitName, trait]) => (
                     <Box key={traitName}>

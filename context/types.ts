@@ -25,6 +25,7 @@ type TypesData = {
     name: string;
     playerSpecies: keyof typeof portraits;
     playerPortraitIndex: number;
+    skillPoints: number;
     edges: string[];
     traits: Traits;
     gear: string[];

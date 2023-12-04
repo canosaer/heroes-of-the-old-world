@@ -168,7 +168,15 @@ const reducer = (state: TypesData, action: Action): TypesData => {
                     },
                 },
             };
-        
+        case 'UPDATE_SKILL_POINTS':
+            return {
+                ...state,
+                playerCharacter: {
+                    ...state.playerCharacter,
+                    skillPoints: action.payload
+                }
+                
+            };
         default:
             return state;
     }
