@@ -4,7 +4,7 @@ DESCRIPTION: This file contains an object representing the global application st
 read and updated with the useContext React hook.
 */
 
-import TypesData from './types';
+import { TypesData } from './types';
 import { defaultTraits } from '../data/characters/defaultTraits'
 
 const data: TypesData = {

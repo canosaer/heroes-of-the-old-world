@@ -4,7 +4,7 @@ type SkillSet = {
   [key: string]: number;
 };
 
-type Trait = {
+export type Trait = {
   rank: number;
   skills: SkillSet;
 };
@@ -21,7 +21,7 @@ type Traits = {
   vigor: Trait;
 };
 
-type TypesData = {
+export type TypesData = {
   data: any;
   dataRefresh: boolean;
   loading: boolean;
@@ -46,5 +46,3 @@ type TypesData = {
     portrait: number;
   };
 };
-
-export default TypesData;

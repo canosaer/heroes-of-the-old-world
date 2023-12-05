@@ -1,6 +1,6 @@
 // ./reducer.ts
 
-import TypesData from './types';
+import { TypesData } from './types';
 
 type Action = {
     type: string;

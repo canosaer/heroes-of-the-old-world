@@ -5,7 +5,7 @@ export const defaultTraits = {
       skills: {
         athletics: 1,
         boating: 0,
-        fighting: 1,
+        fighting: 0,
         riding: 0,
         shooting: 0,
         stealth: 1,
@@ -18,7 +18,7 @@ export const defaultTraits = {
         academics: 0,
         battle: 0,
         commonKnowledge: 1,
-        gambling: 1,
+        gambling: 0,
         healing: 0,
         notice: 1,
         occult: 0,

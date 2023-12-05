@@ -1,10 +1,11 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { Context } from '../../context/store';
 import { Box } from '@mui/system';
 import { Typography, Stack, Card, Button, Rating } from '@mui/material';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles';
 import { defaultTraits } from '../../data/characters/defaultTraits' 
+import { Trait } from '../../context/types' 
 
 export default function Traits() {
     const [ store, dispatch ] = useContext(Context);
@@ -22,6 +23,28 @@ export default function Traits() {
         },
     }));
 
+    const calculateSkillPoints = useCallback(() => {
+        let totalSkillPoints = 0;
+        Object.entries<Trait>(store.playerCharacter.traits).forEach(([currentTraitName, currentTrait]) => {
+            // Check if the current trait is the one being updated
+            Object.entries(currentTrait.skills).forEach(([currentSkillName, currentSkillValue]) => {
+                const linkedAttributeRank = currentTrait.rank;
+                let skillPoints = 0
+
+                    const currentValue = store.playerCharacter.traits[currentTraitName].skills[currentSkillName]
+                    const skillPointDifference = currentValue - linkedAttributeRank
+                    if(skillPointDifference > 0) {
+                        skillPoints = skillPoints + linkedAttributeRank + skillPointDifference * 2;
+                    }
+                    else skillPoints = skillPoints + currentValue
+
+                totalSkillPoints = totalSkillPoints + skillPoints
+            });
+        });
+        const remainingSkillPoints = 17 - totalSkillPoints
+        dispatch({ type: 'UPDATE_SKILL_POINTS', payload: remainingSkillPoints });
+    }, [store.playerCharacter.traits, dispatch]);
+
     const handleSkillChange = (traitName: string, skillName: string, newValue: number) => {
         const payload = {
             [`${traitName.toLowerCase()}Skill`]: skillName,
@@ -33,14 +56,13 @@ export default function Traits() {
         // Calculate used skill points
         let totalSkillPoints = 0;
     
-        Object.entries(store.playerCharacter.traits).forEach(([currentTraitName, currentTrait]) => {
+        Object.entries<Trait>(store.playerCharacter.traits).forEach(([currentTraitName, currentTrait]) => {
             // Check if the current trait is the one being updated
             Object.entries(currentTrait.skills).forEach(([currentSkillName, currentSkillValue]) => {
                 const linkedAttributeRank = currentTrait.rank;
                 let skillPoints = 0
                 if(currentSkillName == skillName){
                     const skillPointDifference = newValue - linkedAttributeRank;
-                    console.log('currentTraitName ' + currentTraitName + 'rank ' + linkedAttributeRank)
                     if(skillPointDifference > 0) {
                         skillPoints = skillPoints + linkedAttributeRank + skillPointDifference * 2;
                     }
@@ -58,8 +80,7 @@ export default function Traits() {
             });
         });
     
-        console.log(totalSkillPoints)
-        const remainingSkillPoints = 12 - totalSkillPoints
+        const remainingSkillPoints = 17 - totalSkillPoints
 
         dispatch({ type: 'UPDATE_SKILL_POINTS', payload: remainingSkillPoints });
         dispatch({ type: updateType, payload });
@@ -79,7 +100,8 @@ export default function Traits() {
 
         newPointsAvailable = newPointsAvailable - (agilityPoints + smartsPoints + strengthPoints + spiritPoints + vigorPoints)
         setAttributePoints(newPointsAvailable)
-    }, [store.playerCharacter.traits]);
+        calculateSkillPoints()
+    }, [store.playerCharacter.traits, calculateSkillPoints]);
     
     return (
         <Stack className="traits" component="form" noValidate autoComplete="off">
