@@ -23,71 +23,89 @@ export default function Traits() {
         },
     }));
 
-    const calculateSkillPoints = useCallback(() => {
+    const calculateTotalSkillPoints = (
+        traits: Record<string, Trait>,
+        updatedTraitName?: string,
+        updatedSkillName?: string,
+        updatedSkillValue?: number
+      ) => {
         let totalSkillPoints = 0;
-        Object.entries<Trait>(store.playerCharacter.traits).forEach(([currentTraitName, currentTrait]) => {
-            // Check if the current trait is the one being updated
-            Object.entries(currentTrait.skills).forEach(([currentSkillName, currentSkillValue]) => {
-                const linkedAttributeRank = currentTrait.rank;
-                let skillPoints = 0
-
-                    const currentValue = store.playerCharacter.traits[currentTraitName].skills[currentSkillName]
-                    const skillPointDifference = currentValue - linkedAttributeRank
-                    if(skillPointDifference > 0) {
-                        skillPoints = skillPoints + linkedAttributeRank + skillPointDifference * 2;
-                    }
-                    else skillPoints = skillPoints + currentValue
-
-                totalSkillPoints = totalSkillPoints + skillPoints
-            });
+      
+        Object.entries<Trait>(traits).forEach(([currentTraitName, currentTrait]) => {
+          Object.entries(currentTrait.skills).forEach(([currentSkillName, currentSkillValue]) => {
+            const linkedAttributeRank = currentTrait.rank;
+            let skillPoints = 0;
+      
+            if (currentSkillName === updatedSkillName && currentTraitName === updatedTraitName) {
+              const skillPointDifference = (updatedSkillValue ?? 0) - linkedAttributeRank;
+              if (skillPointDifference > 0) {
+                skillPoints = linkedAttributeRank + skillPointDifference * 2;
+              } else {
+                skillPoints = updatedSkillValue ?? 0;
+              }
+            } else {
+              const currentValue = traits[currentTraitName].skills[currentSkillName];
+              const skillPointDifference = currentValue - linkedAttributeRank;
+              skillPoints = skillPointDifference > 0 ? linkedAttributeRank + skillPointDifference * 2 : currentValue;
+            }
+      
+            totalSkillPoints += skillPoints;
+          });
         });
-        const remainingSkillPoints = 17 - totalSkillPoints
+      
+        return totalSkillPoints;
+    };
+
+    const calculateSkillPoints = useCallback(() => {
+        const totalSkillPoints = calculateTotalSkillPoints(store.playerCharacter.traits);
+        const remainingSkillPoints = 17 - totalSkillPoints;
         dispatch({ type: 'UPDATE_SKILL_POINTS', payload: remainingSkillPoints });
     }, [store.playerCharacter.traits, dispatch]);
 
     const handleSkillChange = (traitName: string, skillName: string, newValue: number) => {
         const payload = {
-            [`${traitName.toLowerCase()}Skill`]: skillName,
-            [`${traitName.toLowerCase()}Value`]: newValue,
+          [`${traitName.toLowerCase()}Skill`]: skillName,
+          [`${traitName.toLowerCase()}Value`]: newValue,
         };
     
         const updateType = `UPDATE_${traitName.toUpperCase()}_SKILL`;
     
-        // Calculate used skill points
-        let totalSkillPoints = 0;
+        const totalSkillPoints = calculateTotalSkillPoints(store.playerCharacter.traits, traitName, skillName, newValue);
+        const remainingSkillPoints = 17 - totalSkillPoints;
     
-        Object.entries<Trait>(store.playerCharacter.traits).forEach(([currentTraitName, currentTrait]) => {
-            // Check if the current trait is the one being updated
-            Object.entries(currentTrait.skills).forEach(([currentSkillName, currentSkillValue]) => {
-                const linkedAttributeRank = currentTrait.rank;
-                let skillPoints = 0
-                if(currentSkillName == skillName){
-                    const skillPointDifference = newValue - linkedAttributeRank;
-                    if(skillPointDifference > 0) {
-                        skillPoints = skillPoints + linkedAttributeRank + skillPointDifference * 2;
-                    }
-                    else skillPoints = skillPoints + newValue
-                }
-                else{
-                    const currentValue = store.playerCharacter.traits[currentTraitName].skills[currentSkillName]
-                    const skillPointDifference = currentValue - linkedAttributeRank
-                    if(skillPointDifference > 0) {
-                        skillPoints = skillPoints + linkedAttributeRank + skillPointDifference * 2;
-                    }
-                    else skillPoints = skillPoints + currentValue
-                }
-                totalSkillPoints = totalSkillPoints + skillPoints
-            });
-        });
-    
-        const remainingSkillPoints = 17 - totalSkillPoints
-
         dispatch({ type: 'UPDATE_SKILL_POINTS', payload: remainingSkillPoints });
         dispatch({ type: updateType, payload });
     };
 
     const capitalizeFirstLetter = (incomingString: string) => {
-        return incomingString.charAt(0).toUpperCase() + incomingString.slice(1);
+        let result = incomingString.charAt(0).toUpperCase();
+    
+        for (let i = 1; i < incomingString.length; i++) {
+            const currentChar = incomingString.charAt(i);
+            const previousChar = incomingString.charAt(i - 1);
+    
+            // Insert a space before uppercase letters that are not at the beginning
+            if (currentChar === currentChar.toUpperCase() && previousChar !== ' ') {
+                result += ' ';
+            }
+    
+            result += currentChar;
+        }
+    
+        return result;
+    };
+
+    // Function to calculate the maximum value for a skill
+    const calculateMaxSkillValue = (currentSkillRank: number, pointsToAttributeRank: number, skillPoints: number): number => {
+        let calculatedMaxValue = currentSkillRank;
+        if(pointsToAttributeRank < 0) pointsToAttributeRank = 0
+        if (skillPoints > 0) {
+            const remainingSkillPool = skillPoints - pointsToAttributeRank;
+            calculatedMaxValue = currentSkillRank + pointsToAttributeRank + remainingSkillPool / 2;
+        }
+
+        // Ensure the maximum value is capped at 5
+        return Math.min(Math.floor(calculatedMaxValue), 5);
     };
 
     useEffect(() => {
@@ -186,20 +204,38 @@ export default function Traits() {
                         {Object.keys(trait.skills).length > 0 && (
                             <>
                                 <Typography variant="h6" className="attribute-heading">{capitalizeFirstLetter(traitName)}</Typography>
-                                {Object.entries(trait.skills).map(([skillName, skillValue]) => (
-                                    <Box key={skillName}>
-                                        <AttributeTooltip className="attributes__tooltip" placement="right-start" title={''}>
-                                            <Typography className="attributes__name">{capitalizeFirstLetter(skillName)}</Typography>
-                                        </AttributeTooltip>
-                                        <Rating
-                                            name="simple-controlled"
-                                            value={(store.playerCharacter.traits[traitName] as any).skills[skillName]}
-                                            onChange={(e, newValue) => newValue !== null && handleSkillChange(traitName, skillName, newValue)}
-                                            // max={trait.rank + store.playerCharacter.skillPoints > 5 ? 5 : trait.rank + store.playerCharacter.skillPoints}
-                                            max={5}
-                                        />
-                                    </Box>
-                                ))}
+                                {Object.entries(trait.skills).map(([skillName, skillValue]) => {
+                                    const currentTrait = store.playerCharacter.traits[traitName] as any;
+                                    const currentSkillRank = currentTrait.skills[skillName];
+                                    const pointsToAttributeRank = currentTrait.rank - currentSkillRank;
+                                    const calculatedMaxValue = calculateMaxSkillValue(currentSkillRank, pointsToAttributeRank, store.playerCharacter.skillPoints);
+
+                                    // Define the onChange function based on skillName
+                                    const onChangeHandler = (newValue: number | null) => {
+                                        let adjustedValue = newValue === null ? 0 : newValue;
+
+                                        // Special handling for 'athletics', 'stealth', or 'notice'
+                                        if (['athletics', 'stealth', 'notice', 'commonKnowledge', 'persuasion'].includes(skillName)) {
+                                            adjustedValue = newValue === null ? 1 : newValue;
+                                        }
+
+                                        handleSkillChange(traitName, skillName, adjustedValue);
+                                    };
+
+                                    return (
+                                        <Box key={skillName}>
+                                            <AttributeTooltip className="attributes__tooltip" placement="right-start" title={''}>
+                                                <Typography className="attributes__name">{capitalizeFirstLetter(skillName)}</Typography>
+                                            </AttributeTooltip>
+                                            <Rating
+                                                name="simple-controlled"
+                                                value={(store.playerCharacter.traits[traitName] as any).skills[skillName]}
+                                                onChange={(e, newValue) => onChangeHandler(newValue)}
+                                                max={calculatedMaxValue}
+                                            />
+                                        </Box>
+                                    )
+                                })}
                             </>
                         )}
                     </Box>
