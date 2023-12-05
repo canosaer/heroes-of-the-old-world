@@ -225,7 +225,7 @@ export default function Traits() {
                                     return (
                                         <Box key={skillName}>
                                             <AttributeTooltip className="attributes__tooltip" placement="right-start" title={''}>
-                                                <Typography className="attributes__name">{capitalizeFirstLetter(skillName)}</Typography>
+                                                <Typography className="attributes__name">{capitalizeFirstLetter(skillName)} {pointsToAttributeRank < 1 && <span className="attributes__warning">(x2 points to advance)</span>}</Typography>
                                             </AttributeTooltip>
                                             <Rating
                                                 name="simple-controlled"
