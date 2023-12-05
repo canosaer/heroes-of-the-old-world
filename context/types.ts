@@ -9,6 +9,10 @@ type Trait = {
   skills: SkillSet;
 };
 
+type TraitsWithIndexSignature = {
+  [key: string]: Trait;
+};
+
 type Traits = {
   agility: Trait;
   smarts: Trait;
@@ -27,7 +31,7 @@ type TypesData = {
     playerPortraitIndex: number;
     skillPoints: number;
     edges: string[];
-    traits: Traits;
+    traits: TraitsWithIndexSignature;
     gear: string[];
     party: string[];
     units: string[];

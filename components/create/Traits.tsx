@@ -22,9 +22,47 @@ export default function Traits() {
         },
     }));
 
-    const handleSkillChange = (skillCategory: string, skillName: string, newValue: number) => {
-        console.log(`skill name: ${skillName}, value: ${newValue}`)
-        dispatch({ type: `UPDATE_${skillCategory.toUpperCase()}_SKILL`, payload: { skillName, skillValue: newValue } });
+    const handleSkillChange = (traitName: string, skillName: string, newValue: number) => {
+        const payload = {
+            [`${traitName.toLowerCase()}Skill`]: skillName,
+            [`${traitName.toLowerCase()}Value`]: newValue,
+        };
+    
+        const updateType = `UPDATE_${traitName.toUpperCase()}_SKILL`;
+    
+        // Calculate used skill points
+        let totalSkillPoints = 0;
+    
+        Object.entries(store.playerCharacter.traits).forEach(([currentTraitName, currentTrait]) => {
+            // Check if the current trait is the one being updated
+            Object.entries(currentTrait.skills).forEach(([currentSkillName, currentSkillValue]) => {
+                const linkedAttributeRank = currentTrait.rank;
+                let skillPoints = 0
+                if(currentSkillName == skillName){
+                    const skillPointDifference = newValue - linkedAttributeRank;
+                    console.log('currentTraitName ' + currentTraitName + 'rank ' + linkedAttributeRank)
+                    if(skillPointDifference > 0) {
+                        skillPoints = skillPoints + linkedAttributeRank + skillPointDifference * 2;
+                    }
+                    else skillPoints = skillPoints + newValue
+                }
+                else{
+                    const currentValue = store.playerCharacter.traits[currentTraitName].skills[currentSkillName]
+                    const skillPointDifference = currentValue - linkedAttributeRank
+                    if(skillPointDifference > 0) {
+                        skillPoints = skillPoints + linkedAttributeRank + skillPointDifference * 2;
+                    }
+                    else skillPoints = skillPoints + currentValue
+                }
+                totalSkillPoints = totalSkillPoints + skillPoints
+            });
+        });
+    
+        console.log(totalSkillPoints)
+        const remainingSkillPoints = 12 - totalSkillPoints
+
+        dispatch({ type: 'UPDATE_SKILL_POINTS', payload: remainingSkillPoints });
+        dispatch({ type: updateType, payload });
     };
 
     const capitalizeFirstLetter = (incomingString: string) => {
@@ -133,9 +171,10 @@ export default function Traits() {
                                         </AttributeTooltip>
                                         <Rating
                                             name="simple-controlled"
-                                            value={skillValue}
+                                            value={(store.playerCharacter.traits[traitName] as any).skills[skillName]}
                                             onChange={(e, newValue) => newValue !== null && handleSkillChange(traitName, skillName, newValue)}
-                                            max={trait.rank + attributePoints > 5 ? 5 : trait.rank + attributePoints}
+                                            // max={trait.rank + store.playerCharacter.skillPoints > 5 ? 5 : trait.rank + store.playerCharacter.skillPoints}
+                                            max={5}
                                         />
                                     </Box>
                                 ))}
