@@ -2,24 +2,45 @@ import { useState, useEffect, useContext, useCallback } from 'react';
 import { Context } from '../../context/store';
 import { Box } from '@mui/system';
 import { Typography, Stack, Card, Button, Rating } from '@mui/material';
-import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip'
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
-import { defaultTraits } from '../../data/characters/defaultTraits' 
-import { Trait } from '../../context/types' 
+import { defaultTraits } from '../../data/characters/defaultTraits';
+import { Trait } from '../../context/types';
+import AnnouncementIcon from '@mui/icons-material/Announcement';
 
 export default function Traits() {
     const [ store, dispatch ] = useContext(Context);
     const [ attributePoints, setAttributePoints ] = useState(5);
 
-    const AttributeTooltip = styled(({ className, ...props }: TooltipProps) => (
+    type TraitTooltips = {
+        [key: string]: string;
+    };
+
+    const traitTooltips: TraitTooltips = {
+        agility: "Nimbleness, dexterity, and overall physical coordination of muscles and reflexes",
+        smarts: "Raw intellect, perception, and ability to sort and make use of complex information",
+        spirit: "Inner strength and willpower",
+        strength: "Raw muscle power",
+        vigor: "Endurance, health, and constitution",
+    };
+
+    const TraitTooltip = styled(({ className, ...props }: TooltipProps) => (
         <Tooltip {...props} classes={{ popper: className }} />
       ))(({ theme }) => ({
         [`& .${tooltipClasses.tooltip}`]: {
-          backgroundColor: theme.palette.common.white,
-          color: 'rgba(0, 0, 0, 0.87)',
           boxShadow: theme.shadows[1],
           fontSize: 13,
-          maxWidth: 190,
+          maxWidth: 245,
+        },
+    }));
+
+    const AlertTooltip = styled(({ className, ...props }: TooltipProps) => (
+        <Tooltip {...props} classes={{ popper: className }} />
+      ))(({ theme }) => ({
+        [`& .${tooltipClasses.tooltip}`]: {
+          boxShadow: theme.shadows[1],
+          fontSize: 13,
+          maxWidth: 125,
         },
     }));
 
@@ -123,124 +144,86 @@ export default function Traits() {
     
     return (
         <Stack className="traits" component="form" noValidate autoComplete="off">
-            <Typography className="attributes__heading">Attributes ({attributePoints} bonus point{(attributePoints > 1 || attributePoints == 0) && 's'} left)</Typography>
-            <Card className="attributes">
-                <AttributeTooltip className="attributes__tooltip" placement="right-start" title="Nimbleness, dexterity, and overall physical coordination of muscles and reflexes">
-                    <Typography className="attributes__name">Agility</Typography>
-                </AttributeTooltip>
-                <Rating
-                    name="simple-controlled"
-                    value={store.playerCharacter.traits.agility.rank}
-                    onChange={(e, newValue) => {
-                        const clampedValue = typeof newValue === 'number' ? 
-                            newValue < 1 ? 1 : newValue
-                            : 1; // Default to 1 if newValue is null
-                        dispatch({ type: 'UPDATE_AGILITY', payload: clampedValue });
-                    }}
-                    max={store.playerCharacter.traits.agility.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.agility.rank + attributePoints}
-                />
-                <AttributeTooltip className="attributes__tooltip" placement="right-start" title="Raw intellect, perception, and ability to sort and make use of complex information">
-                    <Typography className="attributes__name">Smarts</Typography>
-                </AttributeTooltip>
-                <Rating
-                    name="simple-controlled"
-                    value={store.playerCharacter.traits.smarts.rank}
-                    onChange={(e, newValue) => {
-                        const clampedValue = typeof newValue === 'number' ? 
-                            newValue < 1 ? 1 : newValue
-                            : 1; // Default to 1 if newValue is null
-                        dispatch({ type: 'UPDATE_SMARTS', payload: clampedValue });
-                    }}
-                    max={store.playerCharacter.traits.smarts.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.smarts.rank + attributePoints}
-                />
-                <AttributeTooltip className="attributes__tooltip" placement="right-start" title="Inner strength and willpower">
-                    <Typography className="attributes__name">Spirit</Typography>
-                </AttributeTooltip>
-                <Rating
-                    name="simple-controlled"
-                    value={store.playerCharacter.traits.spirit.rank}
-                    onChange={(e, newValue) => {
-                        const clampedValue = typeof newValue === 'number' ? 
-                            newValue < 1 ? 1 : newValue
-                            : 1; // Default to 1 if newValue is null
-                        dispatch({ type: 'UPDATE_SPIRIT', payload: clampedValue });
-                    }}
-                    max={store.playerCharacter.traits.spirit.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.spirit.rank + attributePoints}
-                />
-                <AttributeTooltip className="attributes__tooltip" placement="right-start" title="Raw muscle power">
-                    <Typography className="attributes__name">Strength</Typography>
-                </AttributeTooltip>
-                <Rating
-                    name="simple-controlled"
-                    value={store.playerCharacter.traits.strength.rank}
-                    onChange={(e, newValue) => {
-                        const clampedValue = typeof newValue === 'number' ? 
-                            newValue < 1 ? 1 : newValue
-                            : 1; // Default to 1 if newValue is null
-                        dispatch({ type: 'UPDATE_STRENGTH', payload: clampedValue });
-                    }}
-                    max={store.playerCharacter.traits.strength.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.strength.rank + attributePoints}
-                />
-                <AttributeTooltip className="attributes__tooltip" placement="right-start" title="Endurance, health, and constitution">
-                    <Typography className="attributes__name">Vigor</Typography>
-                </AttributeTooltip>
-                <Rating
-                    name="simple-controlled"
-                    value={store.playerCharacter.traits.vigor.rank}
-                    onChange={(e, newValue) => {
-                        const clampedValue = typeof newValue === 'number' ? 
-                            newValue < 1 ? 1 : newValue
-                            : 1; // Default to 1 if newValue is null
-                        dispatch({ type: 'UPDATE_VIGOR', payload: clampedValue });
-                    }}
-                    max={store.playerCharacter.traits.vigor.rank + attributePoints > 5 ? 5 : store.playerCharacter.traits.vigor.rank + attributePoints}
-                />
+            <Card className="points">
+                <Typography className="points__type" variant="h6">Attribute Points: {attributePoints}</Typography>
+                <Typography className="points__type points__type_skill" variant="h6">Skill Points: {store.playerCharacter.skillPoints}</Typography>
             </Card>
-            <Typography className="attributes__heading">Skills ({store.playerCharacter.skillPoints} skill point{(store.playerCharacter.skillPoints > 1 || store.playerCharacter.skillPoints == 0) && 's'} left)</Typography>
-            <Card className="skills">
-                {Object.entries(defaultTraits).map(([traitName, trait]) => (
-                    <Box key={traitName}>
-                        {/* Check if the attribute has skills */}
-                        {Object.keys(trait.skills).length > 0 && (
-                            <>
-                                <Typography variant="h6" className="attribute-heading">{capitalizeFirstLetter(traitName)}</Typography>
-                                {Object.entries(trait.skills).map(([skillName, skillValue]) => {
-                                    const currentTrait = store.playerCharacter.traits[traitName] as any;
-                                    const currentSkillRank = currentTrait.skills[skillName];
-                                    const pointsToAttributeRank = currentTrait.rank - currentSkillRank;
-                                    const calculatedMaxValue = calculateMaxSkillValue(currentSkillRank, pointsToAttributeRank, store.playerCharacter.skillPoints);
-
-                                    // Define the onChange function based on skillName
-                                    const onChangeHandler = (newValue: number | null) => {
-                                        let adjustedValue = newValue === null ? 0 : newValue;
-
-                                        // Special handling for 'athletics', 'stealth', or 'notice'
-                                        if (['athletics', 'stealth', 'notice', 'commonKnowledge', 'persuasion'].includes(skillName)) {
-                                            adjustedValue = newValue === null ? 1 : newValue;
-                                        }
-
-                                        handleSkillChange(traitName, skillName, adjustedValue);
-                                    };
-
-                                    return (
-                                        <Box key={skillName}>
-                                            <AttributeTooltip className="attributes__tooltip" placement="right-start" title={''}>
-                                                <Typography className="attributes__name">{capitalizeFirstLetter(skillName)} {pointsToAttributeRank < 1 && <span className="attributes__warning">(x2 points to advance)</span>}</Typography>
-                                            </AttributeTooltip>
-                                            <Rating
-                                                name="simple-controlled"
-                                                value={(store.playerCharacter.traits[traitName] as any).skills[skillName]}
-                                                onChange={(e, newValue) => onChangeHandler(newValue)}
-                                                max={calculatedMaxValue}
-                                            />
-                                        </Box>
-                                    )
-                                })}
-                            </>
-                        )}
+            {Object.entries(defaultTraits).map(([traitName, trait]) => (
+                <Box className="category" component="section" key={traitName}>
+                    <Box className="attribute">
+                        <TraitTooltip className="attribute__tooltip" placement="top-start" title={traitTooltips[traitName]}>
+                            <Typography className="attribute__name">{capitalizeFirstLetter(traitName)}</Typography>
+                        </TraitTooltip>
+                        <Rating
+                            key={`${traitName}-${store.playerCharacter.traits[traitName].rank}`}
+                            className="attribute__rating"
+                            name="simple-controlled"
+                            value={store.playerCharacter.traits[traitName].rank} // Use traitName to access the corresponding trait rank
+                            onChange={(e, newValue) => {
+                                const clampedValue = typeof newValue === 'number' ? newValue < 1 ? 1 : newValue : 1;
+                                dispatch({ type: `UPDATE_${traitName.toUpperCase()}`, payload: clampedValue });
+                            }}
+                            max={
+                                store.playerCharacter.traits[traitName].rank + attributePoints > 5
+                                ? 5
+                                : store.playerCharacter.traits[traitName].rank + attributePoints
+                            }
+                        />
                     </Box>
-                ))}
-            </Card>
+                    <Card className="skills__category">
+                        {Object.keys(trait.skills).length > 0 ?
+                            Object.entries(trait.skills).map(([skillName, skillValue]) => {
+                                const currentTrait = store.playerCharacter.traits[traitName] as any;
+                                const currentSkillRank = currentTrait.skills[skillName];
+                                const pointsToAttributeRank = currentTrait.rank - currentSkillRank;
+                                const calculatedMaxValue = calculateMaxSkillValue(
+                                currentSkillRank,
+                                pointsToAttributeRank,
+                                store.playerCharacter.skillPoints
+                                );
+
+                                // Define the onChange function based on skillName
+                                const onChangeHandler = (newValue: number | null) => {
+                                let adjustedValue = newValue === null ? 0 : newValue;
+
+                                // Special handling for 'athletics', 'stealth', or 'notice'
+                                if (['athletics', 'stealth', 'notice', 'commonKnowledge', 'persuasion'].includes(skillName)) {
+                                    adjustedValue = newValue === null ? 1 : newValue;
+                                }
+
+                                handleSkillChange(traitName, skillName, adjustedValue);
+                                };
+
+                                return (
+                                <Box className="skill" key={skillName}>
+                                    <Box className="skill__heading">
+                                        <TraitTooltip className="skill__tooltip" placement="right-start" title={''}>
+                                            <Typography className="skill__name">
+                                                {capitalizeFirstLetter(skillName)}
+                                            </Typography>
+                                        </TraitTooltip>
+                                        {(pointsToAttributeRank < 1 && store.playerCharacter.skillPoints > 0) &&  
+                                            <AlertTooltip className="alert" placement="right-start" title={`x2 points to advance beyond linked attribute (${capitalizeFirstLetter(traitName)}: ${currentTrait.rank})`}>
+                                                <AnnouncementIcon color="action" className="alert__icon" />
+                                            </AlertTooltip>
+                                        }
+                                    </Box>
+                                    <Rating
+                                        className="skill__rating"
+                                        name="simple-controlled"
+                                        value={currentTrait.skills[skillName]} // Use traitName to access the corresponding skill value
+                                        onChange={(e, newValue) => onChangeHandler(newValue)}
+                                        max={calculatedMaxValue}
+                                    />
+                                </Box>
+                                );
+                            })
+                            :
+                            <Typography className="skill__none">No linked skills</Typography>
+                        }
+                    </Card>
+                </Box>
+            ))}
         </Stack>
     )
 }
