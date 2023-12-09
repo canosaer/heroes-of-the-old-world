@@ -173,7 +173,7 @@ export default function Traits() {
                     <Card className="skills__category">
                         {Object.keys(trait.skills).length > 0 ?
                             Object.entries(trait.skills).map(([skillName, skillValue]) => {
-                                const currentTrait = store.playerCharacter.traits[traitName] as any;
+                                const currentTrait = store.playerCharacter.traits[traitName];
                                 const currentSkillRank = currentTrait.skills[skillName];
                                 const pointsToAttributeRank = currentTrait.rank - currentSkillRank;
                                 const calculatedMaxValue = calculateMaxSkillValue(

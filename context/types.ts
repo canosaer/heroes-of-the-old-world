@@ -9,16 +9,10 @@ export type Trait = {
   skills: SkillSet;
 };
 
-type TraitsWithIndexSignature = {
-  [key: string]: Trait;
-};
+type TraitNames = 'agility' | 'smarts' | 'spirit' | 'strength' | 'vigor';
 
-type Traits = {
-  agility: Trait;
-  smarts: Trait;
-  spirit: Trait;
-  strength: Trait;
-  vigor: Trait;
+type TraitsWithIndexSignature = {
+  [key in TraitNames]: Trait;
 };
 
 export type TypesData = {
