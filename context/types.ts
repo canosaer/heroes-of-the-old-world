@@ -11,7 +11,7 @@ export type Trait = {
 
 type TraitNames = 'agility' | 'smarts' | 'spirit' | 'strength' | 'vigor';
 
-type TraitsWithIndexSignature = {
+export type TraitsWithIndexSignature = {
   [key in TraitNames]: Trait;
 };
 

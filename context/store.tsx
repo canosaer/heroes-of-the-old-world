@@ -1,5 +1,5 @@
 import React, { useReducer, createContext, ReactNode } from 'react';
-import Data from './types'; // Import the Data type from types.ts
+import { TypesData } from './types'; // Import the Data type from types.ts
 import reducer from './reducer';
 import data from './data'; // Import the data object from data.tsx
 
@@ -8,7 +8,7 @@ type Action = {
     payload: any;
 };
 
-type ContextType = [Data, React.Dispatch<Action>];
+type ContextType = [TypesData, React.Dispatch<Action>];
 
 const Context = createContext<ContextType>([data, () => {}]);
 

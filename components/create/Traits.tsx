@@ -5,7 +5,7 @@ import { Typography, Stack, Card, Button, Rating } from '@mui/material';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import { defaultTraits } from '../../data/characters/defaultTraits';
-import { Trait } from '../../context/types';
+import { Trait, TraitsWithIndexSignature } from '../../context/types';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 
 export default function Traits() {
@@ -52,9 +52,9 @@ export default function Traits() {
       ) => {
         let totalSkillPoints = 0;
       
-        Object.entries<Trait>(traits).forEach(([currentTraitName, currentTrait]) => {
-          Object.entries(currentTrait.skills).forEach(([currentSkillName, currentSkillValue]) => {
-            const linkedAttributeRank = currentTrait.rank;
+        Object.entries<Trait>(traits).forEach(([currentTraitName, currentAbility]) => {
+          Object.entries(currentAbility.skills).forEach(([currentSkillName, currentSkillValue]) => {
+            const linkedAttributeRank = currentAbility.rank;
             let skillPoints = 0;
       
             if (currentSkillName === updatedSkillName && currentTraitName === updatedTraitName) {
@@ -83,15 +83,15 @@ export default function Traits() {
         dispatch({ type: 'UPDATE_SKILL_POINTS', payload: remainingSkillPoints });
     }, [store.playerCharacter.traits, dispatch]);
 
-    const handleSkillChange = (traitName: string, skillName: string, newValue: number) => {
+    const handleSkillChange = (abilityName: string, skillName: string, newValue: number) => {
         const payload = {
-          [`${traitName.toLowerCase()}Skill`]: skillName,
-          [`${traitName.toLowerCase()}Value`]: newValue,
+          [`${abilityName.toLowerCase()}Skill`]: skillName,
+          [`${abilityName.toLowerCase()}Value`]: newValue,
         };
     
-        const updateType = `UPDATE_${traitName.toUpperCase()}_SKILL`;
+        const updateType = `UPDATE_${abilityName.toUpperCase()}_SKILL`;
     
-        const totalSkillPoints = calculateTotalSkillPoints(store.playerCharacter.traits, traitName, skillName, newValue);
+        const totalSkillPoints = calculateTotalSkillPoints(store.playerCharacter.traits, abilityName, skillName, newValue);
         const remainingSkillPoints = 17 - totalSkillPoints;
     
         dispatch({ type: 'UPDATE_SKILL_POINTS', payload: remainingSkillPoints });
@@ -148,34 +148,34 @@ export default function Traits() {
                 <Typography className="points__type" variant="h6">Attribute Points: {attributePoints}</Typography>
                 <Typography className="points__type points__type_skill" variant="h6">Skill Points: {store.playerCharacter.skillPoints}</Typography>
             </Card>
-            {Object.entries(defaultTraits).map(([traitName, trait]) => (
-                <Box className="category" component="section" key={traitName}>
+            {Object.entries(defaultTraits).map(([abilityName, trait]) => (
+                <Box className="category" component="section" key={abilityName}>
                     <Box className="attribute">
-                        <TraitTooltip className="attribute__tooltip" placement="top-start" title={traitTooltips[traitName]}>
-                            <Typography className="attribute__name">{capitalizeFirstLetter(traitName)}</Typography>
+                        <TraitTooltip className="attribute__tooltip" placement="top-start" title={traitTooltips[abilityName]}>
+                            <Typography className="attribute__name">{capitalizeFirstLetter(abilityName)}</Typography>
                         </TraitTooltip>
                         <Rating
-                            key={`${traitName}-${store.playerCharacter.traits[traitName].rank}`}
+                            key={`${abilityName}-${(store.playerCharacter.traits as TraitsWithIndexSignature)[abilityName as keyof TraitsWithIndexSignature].rank}`}
                             className="attribute__rating"
                             name="simple-controlled"
-                            value={store.playerCharacter.traits[traitName].rank} // Use traitName to access the corresponding trait rank
+                            value={(store.playerCharacter.traits as TraitsWithIndexSignature)[abilityName as keyof TraitsWithIndexSignature].rank}
                             onChange={(e, newValue) => {
                                 const clampedValue = typeof newValue === 'number' ? newValue < 1 ? 1 : newValue : 1;
-                                dispatch({ type: `UPDATE_${traitName.toUpperCase()}`, payload: clampedValue });
+                                dispatch({ type: `UPDATE_${abilityName.toUpperCase()}`, payload: clampedValue });
                             }}
                             max={
-                                store.playerCharacter.traits[traitName].rank + attributePoints > 5
+                                (store.playerCharacter.traits as TraitsWithIndexSignature)[abilityName as keyof TraitsWithIndexSignature].rank + attributePoints > 5
                                 ? 5
-                                : store.playerCharacter.traits[traitName].rank + attributePoints
+                                : (store.playerCharacter.traits as TraitsWithIndexSignature)[abilityName as keyof TraitsWithIndexSignature].rank + attributePoints
                             }
                         />
                     </Box>
                     <Card className="skills__category">
                         {Object.keys(trait.skills).length > 0 ?
                             Object.entries(trait.skills).map(([skillName, skillValue]) => {
-                                const currentTrait = store.playerCharacter.traits[traitName];
-                                const currentSkillRank = currentTrait.skills[skillName];
-                                const pointsToAttributeRank = currentTrait.rank - currentSkillRank;
+                                const currentAbility = (store.playerCharacter.traits as TraitsWithIndexSignature)[abilityName as keyof TraitsWithIndexSignature];
+                                const currentSkillRank = currentAbility.skills[skillName];
+                                const pointsToAttributeRank = currentAbility.rank - currentSkillRank;
                                 const calculatedMaxValue = calculateMaxSkillValue(
                                 currentSkillRank,
                                 pointsToAttributeRank,
@@ -184,14 +184,14 @@ export default function Traits() {
 
                                 // Define the onChange function based on skillName
                                 const onChangeHandler = (newValue: number | null) => {
-                                let adjustedValue = newValue === null ? 0 : newValue;
+                                    let adjustedValue = newValue === null ? 0 : newValue;
 
-                                // Special handling for 'athletics', 'stealth', or 'notice'
-                                if (['athletics', 'stealth', 'notice', 'commonKnowledge', 'persuasion'].includes(skillName)) {
-                                    adjustedValue = newValue === null ? 1 : newValue;
-                                }
+                                    // Special handling for 'athletics', 'stealth', or 'notice'
+                                    if (['athletics', 'stealth', 'notice', 'commonKnowledge', 'persuasion'].includes(skillName)) {
+                                        adjustedValue = newValue === null ? 1 : newValue;
+                                    }
 
-                                handleSkillChange(traitName, skillName, adjustedValue);
+                                    handleSkillChange(abilityName, skillName, adjustedValue);
                                 };
 
                                 return (
@@ -202,8 +202,8 @@ export default function Traits() {
                                                 {capitalizeFirstLetter(skillName)}
                                             </Typography>
                                         </TraitTooltip>
-                                        {(pointsToAttributeRank < 1 && store.playerCharacter.skillPoints > 0) &&  
-                                            <AlertTooltip className="alert" placement="right-start" title={`x2 points to advance beyond linked attribute (${capitalizeFirstLetter(traitName)}: ${currentTrait.rank})`}>
+                                        {(pointsToAttributeRank < 1 && store.playerCharacter.skillPoints > 0 && currentAbility.skills[skillName] < 5) &&
+                                            <AlertTooltip className="alert" placement="right-start" title={`x2 points to advance beyond linked attribute (${capitalizeFirstLetter(abilityName)}: ${currentAbility.rank})`}>
                                                 <AnnouncementIcon color="action" className="alert__icon" />
                                             </AlertTooltip>
                                         }
@@ -211,7 +211,7 @@ export default function Traits() {
                                     <Rating
                                         className="skill__rating"
                                         name="simple-controlled"
-                                        value={currentTrait.skills[skillName]} // Use traitName to access the corresponding skill value
+                                        value={currentAbility.skills[skillName]} // Use abilityName to access the corresponding skill value
                                         onChange={(e, newValue) => onChangeHandler(newValue)}
                                         max={calculatedMaxValue}
                                     />
