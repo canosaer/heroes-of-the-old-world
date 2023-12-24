@@ -32,7 +32,7 @@ const reducer = (state: TypesData, action: Action): TypesData => {
                 ...state,
                 playerCharacter: {
                     ...state.playerCharacter,
-                    playerSpecies: action.payload
+                    species: action.payload
                 }
             };
         case 'SET_PORTRAIT':

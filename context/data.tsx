@@ -11,7 +11,7 @@ const data: TypesData = {
     data: null,
     playerCharacter: {
         name: "",
-        playerSpecies: 'human',
+        species: 'human',
         playerPortraitIndex: 0,
         skillPoints: 12,
         edges: [

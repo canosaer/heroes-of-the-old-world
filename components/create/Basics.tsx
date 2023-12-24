@@ -8,7 +8,7 @@ import { portraits } from '../../data/characters/portraits';
 
 export default function Create() {
     const [ store, dispatch ] = useContext(Context);
-    const playerSpecies = store?.playerCharacter.playerSpecies as keyof typeof portraits;
+    const playerSpecies = store?.playerCharacter.species as keyof typeof portraits;
     const portraitArray = portraits[playerSpecies];
 
     useEffect(() => {
@@ -34,7 +34,7 @@ export default function Create() {
                 component="data" 
                 select 
                 label="Species" 
-                value={store.playerCharacter.playerSpecies}
+                value={store.playerCharacter.species}
                 SelectProps={{
                     native: true,
                 }}
@@ -99,7 +99,7 @@ export default function Create() {
                     Features
                  </Typography>
                 {playableSpecies
-                    .find(species => species.value === store.playerCharacter.playerSpecies)
+                    .find(species => species.value === store.playerCharacter.species)
                     ?.features.map((feature, index) => (
                         <Box className="item" key={index} sx={{ mb: 2 }}>
                             <Typography className="item__heading" sx={{ mb: 1 }}>

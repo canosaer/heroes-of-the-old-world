@@ -21,7 +21,7 @@ export type TypesData = {
   loading: boolean;
   playerCharacter: {
     name: string;
-    playerSpecies: keyof typeof portraits;
+    species: keyof typeof portraits;
     playerPortraitIndex: number;
     skillPoints: number;
     edges: string[];
