@@ -131,15 +131,17 @@ export default function Traits() {
 
     useEffect(() => {
         let newPointsAvailable = 5;
-        const agilityPoints = store.playerCharacter.traits.agility.rank - 1
-        const smartsPoints = store.playerCharacter.traits.smarts.rank - 1
-        const strengthPoints = store.playerCharacter.traits.strength.rank - 1
-        const spiritPoints = store.playerCharacter.traits.spirit.rank - 1
-        const vigorPoints = store.playerCharacter.traits.vigor.rank - 1
+        const agilityPoints = store.playerCharacter.traits.agility.rank - 1;
+        const smartsPoints = store.playerCharacter.traits.smarts.rank - 1;
+        const strengthPoints = store.playerCharacter.traits.strength.rank - 1;
+        const spiritPoints = store.playerCharacter.traits.spirit.rank - 1;
+        let vigorPoints = store.playerCharacter.traits.vigor.rank - 1;
 
-        newPointsAvailable = newPointsAvailable - (agilityPoints + smartsPoints + strengthPoints + spiritPoints + vigorPoints)
-        setAttributePoints(newPointsAvailable)
-        calculateSkillPoints()
+        if(store.playerCharacter.species === 'dwarf' && store.playerCharacter.traits.vigor.rank > 2) vigorPoints = vigorPoints - 1;
+
+        newPointsAvailable = newPointsAvailable - (agilityPoints + smartsPoints + strengthPoints + spiritPoints + vigorPoints);
+        setAttributePoints(newPointsAvailable);
+        calculateSkillPoints();
     }, [store.playerCharacter.traits, calculateSkillPoints]);
     
     return (
@@ -150,6 +152,7 @@ export default function Traits() {
             </Card>
             {Object.entries(defaultTraits).map(([abilityName, trait]) => {
                 let currentAbilityRank = (store.playerCharacter.traits as TraitsWithIndexSignature)[abilityName as keyof TraitsWithIndexSignature].rank
+                if(abilityName === 'vigor' && store.playerCharacter.species === 'dwarf' && currentAbilityRank === 1) currentAbilityRank = 2;
 
                 return (
                     <Box className="category" component="section" key={abilityName}>
