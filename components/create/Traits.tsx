@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles';
 import { defaultTraits } from '../../data/characters/defaultTraits';
 import { Trait, TraitsWithIndexSignature } from '../../context/types';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
+import { PlaylistRemove } from '@mui/icons-material';
 
 export default function Traits() {
     const [ store, dispatch ] = useContext(Context);
@@ -51,11 +52,14 @@ export default function Traits() {
         updatedSkillValue?: number
       ) => {
         let totalSkillPoints = 0;
+        let noticeBonus = false;
       
         Object.entries<Trait>(traits).forEach(([currentTraitName, currentAbility]) => {
           Object.entries(currentAbility.skills).forEach(([currentSkillName, currentSkillValue]) => {
-            const linkedAttributeRank = currentAbility.rank;
+            let linkedAttributeRank = currentAbility.rank;
             let skillPoints = 0;
+
+            if(store.playerCharacter.species === 'drake' && currentSkillName === 'notice' && linkedAttributeRank === 1) linkedAttributeRank = 2;
       
             if (currentSkillName === updatedSkillName && currentTraitName === updatedTraitName) {
               const skillPointDifference = (updatedSkillValue ?? 0) - linkedAttributeRank;
@@ -74,6 +78,8 @@ export default function Traits() {
           });
         });
       
+        if(store.playerCharacter.species === 'drake' && store.playerCharacter.traits.smarts.skills.notice > 2) totalSkillPoints = totalSkillPoints - 1;
+
         return totalSkillPoints;
     };
 
@@ -119,7 +125,7 @@ export default function Traits() {
     // Function to calculate the maximum value for a skill
     const calculateMaxSkillValue = (currentSkillRank: number, pointsToAttributeRank: number, skillPoints: number): number => {
         let calculatedMaxValue = currentSkillRank;
-        if(pointsToAttributeRank < 0) pointsToAttributeRank = 0
+        if(pointsToAttributeRank < 0) pointsToAttributeRank = 0;
         if (skillPoints > 0) {
             const remainingSkillPool = skillPoints - pointsToAttributeRank;
             calculatedMaxValue = currentSkillRank + pointsToAttributeRank + remainingSkillPool / 2;
@@ -131,18 +137,20 @@ export default function Traits() {
 
     useEffect(() => {
         let newPointsAvailable = 5;
-        const agilityPoints = store.playerCharacter.traits.agility.rank - 1;
-        const smartsPoints = store.playerCharacter.traits.smarts.rank - 1;
-        const strengthPoints = store.playerCharacter.traits.strength.rank - 1;
-        const spiritPoints = store.playerCharacter.traits.spirit.rank - 1;
+        let agilityPoints = store.playerCharacter.traits.agility.rank - 1;
+        let smartsPoints = store.playerCharacter.traits.smarts.rank - 1;
+        let strengthPoints = store.playerCharacter.traits.strength.rank - 1;
+        let spiritPoints = store.playerCharacter.traits.spirit.rank - 1;
         let vigorPoints = store.playerCharacter.traits.vigor.rank - 1;
 
-        if(store.playerCharacter.species === 'dwarf' && store.playerCharacter.traits.vigor.rank > 2) vigorPoints = vigorPoints - 1;
+        if(store.playerCharacter.species === 'dwarf' && store.playerCharacter.traits.vigor.rank >= 2) vigorPoints = vigorPoints - 1;
+        if(store.playerCharacter.species === 'elf' && store.playerCharacter.traits.agility.rank >= 2) agilityPoints = agilityPoints - 1;
 
         newPointsAvailable = newPointsAvailable - (agilityPoints + smartsPoints + strengthPoints + spiritPoints + vigorPoints);
+        
         setAttributePoints(newPointsAvailable);
         calculateSkillPoints();
-    }, [store.playerCharacter.traits, calculateSkillPoints]);
+    }, [store.playerCharacter, calculateSkillPoints]);
     
     return (
         <Stack className="traits" component="form" noValidate autoComplete="off">
@@ -153,6 +161,7 @@ export default function Traits() {
             {Object.entries(defaultTraits).map(([abilityName, trait]) => {
                 let currentAbilityRank = (store.playerCharacter.traits as TraitsWithIndexSignature)[abilityName as keyof TraitsWithIndexSignature].rank
                 if(abilityName === 'vigor' && store.playerCharacter.species === 'dwarf' && currentAbilityRank === 1) currentAbilityRank = 2;
+                if(abilityName === 'agility' && store.playerCharacter.species === 'elf' && currentAbilityRank === 1) currentAbilityRank = 2;
 
                 return (
                     <Box className="category" component="section" key={abilityName}>
@@ -188,6 +197,8 @@ export default function Traits() {
                                     store.playerCharacter.skillPoints
                                     );
 
+                                    if(skillName === 'notice' && store.playerCharacter.species === 'drake' && currentAbilityRank === 1) currentAbilityRank = 2;
+
                                     // Define the onChange function based on skillName
                                     const onChangeHandler = (newValue: number | null) => {
                                         let adjustedValue = newValue === null ? 0 : newValue;
@@ -199,6 +210,9 @@ export default function Traits() {
 
                                         handleSkillChange(abilityName, skillName, adjustedValue);
                                     };
+
+                                    let currentSkillValue = currentAbility.skills[skillName] // Use abilityName to access the corresponding skill value
+                                    if(store.playerCharacter.species === 'drake' && skillName === 'notice' && currentSkillValue === 1) currentSkillValue = 2;
 
                                     return (
                                         <Box className="skill" key={skillName}>
@@ -217,7 +231,7 @@ export default function Traits() {
                                             <Rating
                                                 className="skill__rating"
                                                 name="simple-controlled"
-                                                value={currentAbility.skills[skillName]} // Use abilityName to access the corresponding skill value
+                                                value={currentSkillValue}
                                                 onChange={(e, newValue) => onChangeHandler(newValue)}
                                                 max={calculatedMaxValue}
                                             />
