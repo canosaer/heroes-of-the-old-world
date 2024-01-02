@@ -206,7 +206,11 @@ export const edges = {
     },
     {
       name: "Double Tap",
-      requirements: "Shooting d6",
+      requirements: {
+        skills: {
+          shooting: 6,
+        },
+      },
       summary: "+1 to hit and damage when firing no more than RoF 1 per action."
     },
     {

@@ -1,13 +1,12 @@
 import { useState, useEffect, useContext, useCallback } from 'react';
 import { Context } from '../../context/store';
 import { Box } from '@mui/system';
-import { Typography, Stack, Card, Button, Rating } from '@mui/material';
+import { Typography, Stack, Card, Rating } from '@mui/material';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import { defaultTraits } from '../../data/characters/defaultTraits';
 import { Trait, TraitsWithIndexSignature } from '../../context/types';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
-import { PlaylistRemove } from '@mui/icons-material';
 
 export default function Traits() {
     const [ store, dispatch ] = useContext(Context);
