@@ -239,7 +239,7 @@ export default function Traits() {
                                 })
                                 :
                                 <Typography className="skill__none">No linked skills</Typography>
-                            }
+                            };
                         </Card>
                     </Box>
                 )}

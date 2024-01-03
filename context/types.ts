@@ -13,7 +13,7 @@ type TraitNames = 'agility' | 'smarts' | 'spirit' | 'strength' | 'vigor';
 
 export type TraitsWithIndexSignature = {
   [key in TraitNames]: Trait;
-};
+} & { [key: string]: Trait }; // Add index signature to allow string-based indexing
 
 export type TypesData = {
   data: any;
