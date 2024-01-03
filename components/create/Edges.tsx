@@ -62,8 +62,13 @@ export default function Edges() {
                     if (edge.requirements.skills) {
                         const requiredSkills = edge.requirements.skills;
 
-                        for (const skill in requiredSkills) {
-                            if(skill === 'fighting') console.log('holler dawg')
+                        if(!edge.requirements.skills.either){
+                            for (const skill in requiredSkills) {
+                                if(skill === 'fighting' || skill === 'athletics' || skill === 'stealth' || skill === 'shooting' || skill === 'theivery') {
+                                    
+                                }
+                            }
+
                         }
                     }
                 }

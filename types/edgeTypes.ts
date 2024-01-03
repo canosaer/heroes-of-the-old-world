@@ -1,3 +1,5 @@
+import { SkillSet } from '../context/types'
+
 export type Edge = {
     name: string;
     requirements?: {
@@ -20,6 +22,9 @@ export type Edge = {
             shooting?: number;
             taunt?: number;
             thievery?: number;
+            either?: {
+                [K in keyof (Pick<SkillSet, 'athletics' | 'shooting'>)]: number;
+            };
         };
         edges?: string[];
     };
