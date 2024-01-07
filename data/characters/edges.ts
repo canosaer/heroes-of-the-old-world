@@ -4,10 +4,10 @@ export const edges = {
       name: "Acrobat",
       requirements: {
         attributes: {
-          agility: 8,
+          agility: 3,
         },
         skills: {
-          athletics: 8,
+          athletics: 3,
         }
       },
       summary: "Free reroll on acrobatic Athletics attempts."
@@ -21,30 +21,25 @@ export const edges = {
       name: "Ambidextrous",
       requirements: {
         attributes: {
-          agility: 8,
+          agility: 3,
         },
       },
-      summary: "Ignore -2 penalty when making Trait rolls with off-hand."
+      summary: "Ignore penalty when making Trait rolls with off-hand."
     },
     {
       name: "Animal Tamer",
       requirements: {
         attributes: {
-          spirit: 8,
+          spirit: 3,
         },
       },
       summary: "Animals like your hero and he has a pet of some sort."
     },
     {
-      name: "Arcane Background",
-      requirements: {},
-      summary: "Allows access to the Arcane Backgrounds listed in Chapter Five."
-    },
-    {
       name: "Arcane Resistance",
       requirements: {
         attributes: {
-          spirit: 8,
+          spirit: 3,
         },
       },
       summary: "+2 to Trait rolls to resist magical effects; magical damage is reduced by 2."
@@ -58,20 +53,20 @@ export const edges = {
       name: "Assassin",
       requirements: {
         attributes: {
-          agility: 8,
+          agility: 3,
         },
         skills: {
-          fighting: 6,
-          stealth: 8,
+          fighting: 2,
+          stealth: 3,
         }
       },
-      summary: "+2 to damage foes when Vulnerable or assassin has The Drop."
+      summary: "+2 to damage vulnerable or surprised foes."
     },
     {
       name: "Attractive",
       requirements: {
         attributes: {
-          vigor: 6,
+          vigor: 2,
         },
       },
       summary: "+1 to Performance and Persuasion rolls."
@@ -84,13 +79,13 @@ export const edges = {
     {
       name: "Berserk",
       requirements: {},
-      summary: "After being Shaken or Wounded, melee attacks must be Wild Attacks, +1 die type to Strength, +2 to Toughness, ignore one level of Wound penalties. Take Fatigue after every five consecutive rounds, may choose to end rage with Smarts roll -2."
+      summary: "After being Shaken or Wounded, Strength and Toughness are increased, ignore one level of Wound penalties, and melee attacks must be Wild Attacks. Take Fatigue after every five consecutive rounds, may choose to end rage with Smarts roll -2."
     },
     {
       name: "Bolster",
       requirements: {
         attributes: {
-          spirit: 8,
+          spirit: 3,
         },
       },
       summary: "May remove Distracted or Vulnerable state after a Test."
@@ -99,67 +94,67 @@ export const edges = {
       name: "Brave",
       requirements: {
         attributes: {
-          spirit: 6,
+          spirit: 2,
         },
       },
-      summary: "+2 to Fear checks and -2 to rolls on the Fear Table."
+      summary: "+2 to Fear checks."
     },
     {
       name: "Brawny",
       requirements: {
         attributes: {
-          strength: 6,
-          vigor: 6,
+          strength: 2,
+          vigor: 2,
         },
       },
-      summary: "Size (and therefore Toughness) +1. Treat Strength as one die type higher for Encumbrance and Minimum Strength to use weapons, armor, or equipment."
+      summary: "Size (and therefore Toughness) +1. Improved carrying capacity and decreased Minimum Strength to use weapons, armor, or equipment."
     },
     {
       name: "Brawler",
       requirements: {
         attributes: {
-          strength: 8,
-          vigor: 8,
+          strength: 3,
+          vigor: 3,
         },
       },
-      summary: "Toughness +1, add d4 to damage from fists; or increase it a die type if combined with Martial Artist, Claws, or similar abilities."
+      summary: "Toughness +1, increased damage from fists; greater increase if combined with Martial Artist."
     },
     {
       name: "Brute",
       requirements: {
         attributes: {
-          strength: 6,
-          vigor: 6,
+          strength: 2,
+          vigor: 2,
         },
       },
-      summary: "Link Athletics to Strength instead of Agility (including resistance). Short Range of any thrown item increased by +1. Double that for the adjusted Medium Range, and double again for Long Range."
+      summary: "Increased throwing Range."
     },
     {
       name: "Calculating",
       requirements: {
         attributes: {
-          smarts: 8,
+          smarts: 3,
         },
       },
-      summary: "Ignore up to 2 points of penalties on one action with an Action Card of Five or less."
+      summary: "When your initiative is 5 or less, ignore up to 2 points of penalties on one action."
     },
     {
       name: "Champion",
       requirements: {
         attributes: {
-          spirit: 8,
+          spirit: 3,
         },
         skills: {
-          fighting: 6,
+          fighting: 2,
         }
       },
-      summary: "+2 damage vs. supernaturally evil creatures."
+      summary: "Increased damage vs. supernaturally evil creatures."
     },
     {
       name: "Charismatic",
       requirements: {
         attributes: {
-          spirit: 8,
+          spirit: 3,
         },
       },
       summary: "Free reroll when using Persuasion."
@@ -168,16 +163,16 @@ export const edges = {
       name: "Command",
       requirements: {
         attributes: {
-          smarts: 6,
+          smarts: 2,
         },
       },
-      summary: "+1 to Extras' Shaken recovery rolls in Command Range."
+      summary: "+1 to allies' Shaken recovery rolls in Command Range."
     },
     {
       name: "Common Bond",
       requirements: {
         attributes: {
-          spirit: 8,
+          spirit: 3,
         },
       },
       summary: "The hero may freely give her Bennies to others."
@@ -197,8 +192,8 @@ export const edges = {
       requirements: {
         skills: {
           either: {
-            athletics: 8,
-            shooting: 8,
+            athletics: 3,
+            shooting: 3,
           },
         }
       },
@@ -208,7 +203,7 @@ export const edges = {
       name: "Double Tap",
       requirements: {
         skills: {
-          shooting: 6,
+          shooting: 2,
         },
       },
       summary: "+1 to hit and damage when firing no more than RoF 1 per action."
@@ -217,7 +212,7 @@ export const edges = {
       name: "Elan",
       requirements: {
           attributes: {
-            spirit: 8,
+            spirit: 3,
           },
       },
       summary: "+2 when spending a Benny to reroll a Trait roll."
@@ -226,7 +221,7 @@ export const edges = {
       name: "Extraction",
       requirements: {
           attributes: {
-            agility: 8,
+            agility: 3,
           },
       },
       summary: "One adjacent foe doesn't get a free attack when you withdraw from close combat."
@@ -247,7 +242,7 @@ export const edges = {
       name: "Fast Healer",
       requirements: {
         attributes: {
-          vigor: 8,
+          vigor: 3,
         },
       },
       summary: "+2 Vigor when rolling for natural healing; check every 3 days."
@@ -256,7 +251,7 @@ export const edges = {
       name: "Feint",
       requirements: {
         skills: {
-          fighting: 8,
+          fighting: 3,
         }
       },
       summary: "You may choose to make foe resist with Smarts instead of Agility during a Fighting Test."
@@ -272,7 +267,7 @@ export const edges = {
       name: "First Strike",
       requirements: {
         attributes: {
-          agility: 8,
+          agility: 3,
         },
     },
       summary: "Free Fighting attack once per round when foe moves within Reach."
@@ -281,7 +276,7 @@ export const edges = {
       name: "Fleet-Footed",
       requirements: {
         attributes: {
-          agility: 6,
+          agility: 2,
         },
       },
       summary: "Pace +2, increase running die one step."
@@ -290,7 +285,7 @@ export const edges = {
       name: "Free Runner",
       requirements: {
         attributes: {
-          agility: 8,
+          agility: 3,
         },
       },
       summary: "Ignore Difficult Ground and add +2 to Athletics in foot chases."
@@ -306,7 +301,7 @@ export const edges = {
       name: "Hard to Kill",
       requirements: {
         attributes: {
-          spirit: 8,
+          spirit: 3,
         },
       },
       summary: "Ignore Wound penalties when making Vigor rolls to avoid Bleeding Out."
@@ -315,7 +310,7 @@ export const edges = {
       name: "Healer",
       requirements: {
         attributes: {
-          spirit: 8,
+          spirit: 3,
         },
       },
       summary: "+2 to Healing rolls, magical or otherwise."
@@ -324,7 +319,7 @@ export const edges = {
       name: "Humiliate",
       requirements: {
         skills: {
-          taunt: 8,
+          taunt: 3,
         },
       },
       summary: "Free reroll when making Taunt rolls."
@@ -347,10 +342,10 @@ export const edges = {
       name: "Investigator",
       requirements: {
         attributes: {
-          smarts: 8,
+          smarts: 3,
         },
         skills: {
-          research: 8,
+          research: 3,
         }
       },
       summary: "+2 to Research and certain types of Notice rolls."
@@ -359,7 +354,7 @@ export const edges = {
       name: "Iron Jaw",
       requirements: {
         attributes: {
-          vigor: 8,
+          vigor: 3,
         },
       },
       summary: "+2 to Soak and Vigor rolls to avoid Knockout Blows."
@@ -368,7 +363,7 @@ export const edges = {
       name: "Iron Will",
       requirements: {
         attributes: {
-          spirit: 8,
+          spirit: 3,
         },
       },
       summary: "+2 to resisting and recovery from magic."
@@ -377,7 +372,7 @@ export const edges = {
       name: "Jack-of-all-Trades",
       requirements: {
         attributes: {
-          smarts: 10,
+          smarts: 4,
         },
       },
       summary: "Gain d4 in a skill (or d6 with a raise) until replaced."
@@ -386,7 +381,7 @@ export const edges = {
       name: "Linguist",
       requirements: {
         attributes: {
-          smarts: 6,
+          smarts: 2,
         },
       },
       summary: "Character has d6 in languages equal to half her Smarts die."
@@ -395,7 +390,7 @@ export const edges = {
       name: "Liquid Courage",
       requirements: {
         attributes: {
-          smarts: 6,
+          smarts: 2,
         },
       },
       summary: "Alcohol increases Vigor and ignores one level of Wound penalty; -1 to Agility, Smarts, and related skills."
@@ -409,7 +404,7 @@ export const edges = {
       name: "Martial Artist",
       requirements: {
         skills: {
-          fighting: 6,
+          fighting: 2,
         },
       },
       summary: "Unarmed Fighting +1, fists and feet count as Natural Weapons, add d4 damage die to unarmed Fighting attacks (or increase die a step if you already have it)."
@@ -418,11 +413,11 @@ export const edges = {
       name: "McGyver",
       requirements: {
         attributes: {
-          smarts: 6,
+          smarts: 2,
         },
         skills: {
-          repair: 6,
-          notice: 8,
+          repair: 2,
+          notice: 3,
         }
       },
       summary: "Quickly create improvised devices from scraps."
@@ -440,7 +435,7 @@ export const edges = {
       name: "Mighty Blow",
       requirements: {
         skills: {
-          fighting: 8,
+          fighting: 3,
         },
       },
       summary: "Once per turn, double Fighting damage when dealt a Joker."
@@ -449,7 +444,7 @@ export const edges = {
       name: "Mr. Fix It",
       requirements: {
         skills: {
-          repair: 8,
+          repair: 3,
         },
       },
       summary: "+2 to Repair rolls, half the time required with a raise."
@@ -458,7 +453,7 @@ export const edges = {
       name: "Nerves of Steel",
       requirements: {
         attributes: {
-          vigor: 8,
+          vigor: 3,
         },
       },
       summary: "Ignore one level of Wound penalties."
@@ -467,7 +462,7 @@ export const edges = {
       name: "Provoke",
       requirements: {
         skills: {
-          taunt: 6,
+          taunt: 2,
         },
       },
       summary: "May “provoke” foes with a raise on a Taunt roll."
@@ -476,7 +471,7 @@ export const edges = {
       name: "Reliable",
       requirements: {
         attributes: {
-          spirit: 8,
+          spirit: 3,
         },
       },
       summary: "Free reroll when making Support rolls."
@@ -485,7 +480,7 @@ export const edges = {
       name: "Retort",
       requirements: {
         skills: {
-          taunt: 6,
+          taunt: 2,
         },
       },
       summary: "A raise when resisting a Taunt or Intimidation attack makes the foe Distracted."
@@ -503,20 +498,11 @@ export const edges = {
       summary: 'More likely to find hidden loot and treasure.'
     },
     {
-      name: "Scholar",
-      requirements: {
-        attributes: {
-          agility: 8,
-        },
-      },
-      summary: '+2 to any one “knowledge” skill.'
-    },
-    {
       name: "Soldier",
       requirements: {
         attributes: {
-          strength: 6,
-          vigor: 6,
+          strength: 2,
+          vigor: 2,
         },
       },
       summary: "Strength is one die type higher for Encumbrance and Min Str. Reroll Vigor rolls when resisting environmental Hazards."
@@ -525,7 +511,7 @@ export const edges = {
       name: "Steady Hands",
       requirements: {
         attributes: {
-          agility: 8,
+          agility: 3,
         },
       },
       summary: "Ignore Unstable Platform penalty; reduce running penalty to -1."
@@ -534,7 +520,7 @@ export const edges = {
       name: "Streetwise",
       requirements: {
         attributes: {
-          smarts: 6,
+          smarts: 2,
         },
       },
       summary: "+2 to Common Knowledge and criminal networking."
@@ -543,7 +529,7 @@ export const edges = {
       name: "Strong Willed",
       requirements: {
         attributes: {
-          spirit: 8,
+          spirit: 3,
         },
       },
       summary: "+2 to resist Smarts or Spirit-based Tests."
@@ -552,10 +538,10 @@ export const edges = {
       name: "Sweep",
       requirements: {
         attributes: {
-          strength: 8,
+          strength: 3,
         },
         skills: {
-          fighting: 8,
+          fighting: 3,
         }
       },
       summary: "Fighting roll at -2 to hit all targets in weapon's Reach, no more than once per turn."
@@ -564,11 +550,11 @@ export const edges = {
       name: "Thief",
       requirements: {
         attributes: {
-          agility: 8,
+          agility: 3,
         },
         skills: {
-          stealth: 6,
-          thievery: 6,
+          stealth: 2,
+          thievery: 2,
         }
       },
       summary: "+1 Thievery, Athletics rolls made to climb, Stealth in urban environments."
@@ -577,10 +563,10 @@ export const edges = {
       name: "Two-Fisted",
       requirements: {
         attributes: {
-          strength: 8,
+          strength: 3,
         },
         skills: {
-          fighting: 8,
+          fighting: 3,
         }
       },
       summary: "Make one extra Fighting roll with a second melee weapon in the off-hand at no Multi-Action."
@@ -589,7 +575,7 @@ export const edges = {
       name: "Quick",
       requirements: {
         attributes: {
-          smarts: 6,
+          smarts: 2,
         },
       },
       summary: "The hero may discard and redraw Action Cards of 5 or lower."
@@ -605,10 +591,10 @@ export const edges = {
       name: "Woodsman",
       requirements: {
         attributes: {
-          spirit: 6,
+          spirit: 2,
         },
         skills: {
-          survival: 8,
+          survival: 3,
         }
       },
       summary: "+2 to Survival and Stealth in the wilds."

@@ -32,56 +32,70 @@ export default function Edges() {
                 <Typography className="points__display" variant="h6">Edge Points: {edgePoints}</Typography>
             </Card>
             {results.map((edge, i) => {
-                let display = true
-                
+                let eligible = true;
+
                 if (edge.requirements) {
-                    if (edge.requirements.attributes) {
-                        // Check each attribute requirement and set display to false if it doesn't meet the condition
-                        if (edge.requirements.attributes.spirit && edge.requirements.attributes.spirit > store.playerCharacter.traits.spirit.rank) {
-                            display = false;
-                        } 
-                        else if (edge.requirements.attributes.strength && edge.requirements.attributes.strength > store.playerCharacter.traits.strength.rank) {
-                            display = false;
-                        } 
-                        else if (edge.requirements.attributes.vigor && edge.requirements.attributes.vigor > store.playerCharacter.traits.vigor.rank) {
-                            display = false;
-                        } 
-                        else if (edge.requirements.attributes.smarts && edge.requirements.attributes.smarts > store.playerCharacter.traits.smarts.rank) {
-                            display = false;
-                        } 
-                        else if (edge.requirements.attributes.agility && edge.requirements.attributes.agility > store.playerCharacter.traits.agility.rank) {
-                            display = false;
-                        }
-                    } 
-                    if (edge.requirements.edges) {
-                        // Check if store.playerCharacter.edges contains the edge name
-                        if (!store.playerCharacter.edges.includes(edge.name)) {
-                            display = false;
-                        }
+                    // Check each attribute requirement and set eligible to false if it doesn't meet the condition
+                    const attributes = edge.requirements.attributes ?? {};
+                    const traitRanks = store.playerCharacter.traits;
+
+                    const hasUnmetAttribute = Object.keys(attributes).some(attribute => {
+                        const attributeName = attribute as keyof typeof attributes;
+                        return attributes[attributeName] && attributes[attributeName]! > (traitRanks[attributeName]?.rank ?? 0);
+                    });
+
+                    if (hasUnmetAttribute) {
+                        eligible = false;
                     }
+            
+                    // Check if store.playerCharacter.edges contains the edge name
+                    if (edge.requirements.edges && !store.playerCharacter.edges.includes(edge.name)) {
+                        eligible = false;
+                    }
+            
+                    // Access skills directly without iterating through Object.keys()
                     if (edge.requirements.skills) {
-                        const requiredSkills = edge.requirements.skills;
-
-                        if(!edge.requirements.skills.either){
-                            for (const skill in requiredSkills) {
-                                if(skill === 'fighting' || skill === 'athletics' || skill === 'stealth' || skill === 'shooting' || skill === 'theivery') {
-                                    
-                                }
+                        const eitherRequirement = edge.requirements.skills.either;
+            
+                        const playerSkills = store.playerCharacter.traits;
+            
+                        if (!eitherRequirement) {
+                            if (
+                                (edge.requirements.skills.athletics && edge.requirements.skills.athletics > playerSkills.agility.skills.athletics) ||
+                                (edge.requirements.skills.fighting && edge.requirements.skills.fighting > playerSkills.agility.skills.fighting) ||
+                                (edge.requirements.skills.notice && edge.requirements.skills.notice > playerSkills.smarts.skills.notice) ||
+                                (edge.requirements.skills.persuasion && edge.requirements.skills.persuasion > playerSkills.spirit.skills.persuasion) ||
+                                (edge.requirements.skills.repair && edge.requirements.skills.repair > playerSkills.smarts.skills.repair) ||
+                                (edge.requirements.skills.research && edge.requirements.skills.research > playerSkills.smarts.skills.research) ||
+                                (edge.requirements.skills.stealth && edge.requirements.skills.stealth > playerSkills.agility.skills.stealth) ||
+                                (edge.requirements.skills.survival && edge.requirements.skills.survival > playerSkills.smarts.skills.survival) ||
+                                (edge.requirements.skills.shooting && edge.requirements.skills.shooting > playerSkills.agility.skills.shooting) ||
+                                (edge.requirements.skills.taunt && edge.requirements.skills.taunt > playerSkills.smarts.skills.taunt) ||
+                                (edge.requirements.skills.thievery && edge.requirements.skills.thievery > playerSkills.agility.skills.thievery)
+                            ) {
+                                eligible = false;
+                            }                            
+                        } else {
+                            const requiredAthletics = eitherRequirement.athletics;
+                            const requiredShooting = eitherRequirement.shooting;
+            
+                            if (requiredAthletics > playerSkills.agility.skills.athletics && requiredShooting > playerSkills.agility.skills.shooting) {
+                                eligible = false;
                             }
-
                         }
                     }
                 }
 
                 return(
-                    <Card key={`${i}-${edge.name}`}>
-                        <CardContent>
-                            <Typography variant="h5">{edge.name}</Typography>
-                            <Typography variant="body2">{edge.summary}</Typography>
-                        </CardContent>
-                    </Card>
+                    eligible &&
+                        <Card key={`${i}-${edge.name}`}>
+                            <CardContent>
+                                <Typography variant="h5">{edge.name}</Typography>
+                                <Typography variant="body2">{edge.summary}</Typography>
+                            </CardContent>
+                        </Card>
                 );
-            })};
+            })}
         </Stack>
     )
 }
