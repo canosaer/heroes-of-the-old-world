@@ -1,6 +1,6 @@
 declare const portraits: Record<string, string[]>;
 
-type SkillSet = {
+export type SkillSet = {
   [key: string]: number;
 };
 
