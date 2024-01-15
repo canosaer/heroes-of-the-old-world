@@ -33,7 +33,7 @@ export const edges = {
           spirit: 3,
         },
       },
-      summary: "Animals like your hero and he has a pet of some sort."
+      summary: "Animals like your hero and you start with a pet."
     },
     {
       name: "Arcane Resistance",
@@ -74,7 +74,7 @@ export const edges = {
     {
       name: "Beast Bond",
       requirements: {},
-      summary: "The hero may spend Bennies for animals under her control."
+      summary: "You may spend Bennies for animals under your control."
     },
     {
       name: "Berserk",
@@ -97,7 +97,7 @@ export const edges = {
           spirit: 2,
         },
       },
-      summary: "+2 to Fear checks."
+      summary: "Improved resistance to fear effects."
     },
     {
       name: "Brawny",
@@ -107,7 +107,7 @@ export const edges = {
           vigor: 2,
         },
       },
-      summary: "Size (and therefore Toughness) +1. Improved carrying capacity and decreased Minimum Strength to use weapons, armor, or equipment."
+      summary: "Size and Toughness increased. Improved carrying capacity and decreased Minimum Strength to use weapons, armor, or equipment."
     },
     {
       name: "Brawler",
@@ -169,15 +169,6 @@ export const edges = {
       summary: "+1 to allies' Shaken recovery rolls in Command Range."
     },
     {
-      name: "Common Bond",
-      requirements: {
-        attributes: {
-          spirit: 3,
-        },
-      },
-      summary: "The hero may freely give her Bennies to others."
-    },
-    {
       name: "Connections",
       requirements: {},
       summary: "Contacts provide aid or other favor."
@@ -197,16 +188,7 @@ export const edges = {
           },
         }
       },
-      summary: "Once per turn, double damage from Athletics (throwing) or Shooting roll when dealt a Joker."
-    },
-    {
-      name: "Double Tap",
-      requirements: {
-        skills: {
-          shooting: 2,
-        },
-      },
-      summary: "+1 to hit and damage when firing no more than RoF 1 per action."
+      summary: "Once per turn, double damage from Athletics (throwing) or Shooting roll when initiative is a critical hit."
     },
     {
       name: "Elan",
@@ -215,7 +197,7 @@ export const edges = {
             spirit: 3,
           },
       },
-      summary: "+2 when spending a Benny to reroll a Trait roll."
+      summary: "+2 when spending a Luck Point to reroll a Trait roll."
     },
     {
       name: "Extraction",
@@ -229,14 +211,7 @@ export const edges = {
     {
       name: "Fame",
       requirements: {},
-      summary: "+1 Persuasion rolls when recognized (Common Knowledge), double usual fee for Performance."
-    },
-    {
-      name: "Famous",
-      requirements: {
-        edges: ["Fame",],
-      },
-      summary: "+2 Persuasion when recognized, 5x or more usual fee for Performance."
+      summary: "+1 to Persuasion rolls, double usual fee for Performance."
     },
     {
       name: "Fast Healer",
@@ -295,7 +270,7 @@ export const edges = {
       requirements: {
         edges: ["Luck",],
       },
-      summary: "+2 Bennies at the start of each session."
+      summary: "+2 Luck Points at the start of each session."
     },
     {
       name: "Hard to Kill",
@@ -360,22 +335,13 @@ export const edges = {
       summary: "+2 to Soak and Vigor rolls to avoid Knockout Blows."
     },
     {
-      name: "Iron Will",
-      requirements: {
-        attributes: {
-          spirit: 3,
-        },
-      },
-      summary: "+2 to resisting and recovery from magic."
-    },
-    {
       name: "Jack-of-all-Trades",
       requirements: {
         attributes: {
           smarts: 4,
         },
       },
-      summary: "Gain d4 in a skill (or d6 with a raise) until replaced."
+      summary: "Chance to gain skills through observation or study."
     },
     {
       name: "Linguist",
@@ -384,7 +350,7 @@ export const edges = {
           smarts: 2,
         },
       },
-      summary: "Character has d6 in languages equal to half her Smarts die."
+      summary: "Character can learn languages through observation or study."
     },
     {
       name: "Liquid Courage",
@@ -398,7 +364,7 @@ export const edges = {
     {
       name: "Luck",
       requirements: {},
-      summary: "+1 Benny at the start of each session."
+      summary: "+1 Luck Point at the start of each session."
     },
     {
       name: "Martial Artist",
@@ -438,10 +404,10 @@ export const edges = {
           fighting: 3,
         },
       },
-      summary: "Once per turn, double Fighting damage when dealt a Joker."
+      summary: "Once per turn, double Fighting damage when initiative is a critical hit."
     },
     {
-      name: "Mr. Fix It",
+      name: "Fixer",
       requirements: {
         skills: {
           repair: 3,
@@ -465,16 +431,7 @@ export const edges = {
           taunt: 2,
         },
       },
-      summary: "May “provoke” foes with a raise on a Taunt roll."
-    },
-    {
-      name: "Reliable",
-      requirements: {
-        attributes: {
-          spirit: 3,
-        },
-      },
-      summary: "Free reroll when making Support rolls."
+      summary: "May provoke foes with a raise on a Taunt roll."
     },
     {
       name: "Retort",
@@ -578,7 +535,7 @@ export const edges = {
           smarts: 2,
         },
       },
-      summary: "The hero may discard and redraw Action Cards of 5 or lower."
+      summary: "Improved initiative in combat."
     },
     {
       name: "Very Attractive",
