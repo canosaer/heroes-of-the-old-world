@@ -18,8 +18,6 @@ export default function Create() {
   const [ store, dispatch ] = useContext(Context);
   const [ activeStep, setActiveStep] = useState(0);
 
-  const numSteps = store.playerCharacter.edges.includes('Arcane Background') ? 4 : 3
-
   // Define heading text based on activeStep
   let headingText = 'Basics';
   switch (activeStep) {
@@ -30,10 +28,10 @@ export default function Create() {
       headingText = 'Traits';
       break;
     case 2:
-      headingText = 'Edges';
+      headingText = 'Spells';
       break;
     case 3:
-      headingText = 'Spells';
+      headingText = 'Edges';
       break;
     default:
       break;
@@ -59,12 +57,12 @@ export default function Create() {
         <MobileStepper
           className="stepper"
           variant="dots"
-          steps={numSteps}
+          steps={4}
           position="static"
           activeStep={activeStep}
           sx={{ maxWidth: 400, flexGrow: 1 }}
           nextButton={
-            <Button size="small" onClick={advanceStep} disabled={activeStep === numSteps - 1}>
+            <Button size="small" onClick={advanceStep} disabled={activeStep === 3}>
               <NavigateNext />
             </Button>
           }
@@ -77,8 +75,8 @@ export default function Create() {
         <Typography className="chargen__heading" variant="h5" textAlign="center">{headingText}</Typography>
         {activeStep === 0 && <Basics />}
         {activeStep === 1 && <Traits />}
-        {activeStep === 2 && <Edges />}
-        {activeStep === 3 && <Spells />}
+        {activeStep === 2 && <Spells />}
+        {activeStep === 3 && <Edges />}
       </Paper>
       
     </Box>

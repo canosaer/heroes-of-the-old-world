@@ -23,7 +23,7 @@ export type TypesData = {
     name: string;
     species: keyof typeof portraits;
     playerPortraitIndex: number;
-    skillPoints: number;
+    improvementPoints: number;
     edges: string[];
     traits: TraitsWithIndexSignature;
     gear: string[];
@@ -31,7 +31,7 @@ export type TypesData = {
     units: string[];
     glyphs: string[];
     rings: string[];
-    powers: string[];
+    spells: Array<{ name: string; rank: number }>;
     status: string[];
     fatigue: number;
     wounds: number;

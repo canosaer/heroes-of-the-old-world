@@ -6,6 +6,13 @@ read and updated with the useContext React hook.
 
 import { TypesData } from './types';
 import { defaultTraits } from '../data/characters/defaultTraits'
+import { spells } from '../data/characters/spells';
+
+// Extract initial spells from the spells object
+const initialSpells = spells.N.map((spell) => ({
+  name: spell.name,
+  rank: 0,
+}));
 
 const data: TypesData = {
     data: null,
@@ -13,16 +20,14 @@ const data: TypesData = {
         name: "",
         species: 'human',
         playerPortraitIndex: 0,
-        skillPoints: 12,
+        improvementPoints: 12,
         edges: [
             "",
         ],
         traits: {
             ...defaultTraits,
         },
-        powers: [
-            "",
-        ],
+        spells: initialSpells,
         gear: [
             "dagger",
         ],

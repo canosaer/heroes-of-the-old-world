@@ -7,6 +7,30 @@ type Action = {
     payload: any;
 };
 
+const updateSpell = (state: TypesData, spellName: string, spellRank: number): TypesData => {
+    // Find the index of the spell with the given name
+    const spellIndex = state.playerCharacter.spells.findIndex(spell => spell.name === spellName);
+
+    // If the spell is found, update its rank
+    if (spellIndex !== -1) {
+        const updatedSpells = [...state.playerCharacter.spells];
+        updatedSpells[spellIndex] = {
+            ...updatedSpells[spellIndex],
+            rank: spellRank,
+        };
+
+        return {
+            ...state,
+            playerCharacter: {
+                ...state.playerCharacter,
+                spells: updatedSpells,
+            },
+        };
+    }
+
+    return state; // Return unchanged state if the spell is not found
+};
+
 const reducer = (state: TypesData, action: Action): TypesData => {
     switch (action.type) {
         case 'LOAD_DATA':
@@ -168,15 +192,18 @@ const reducer = (state: TypesData, action: Action): TypesData => {
                     },
                 },
             };
-        case 'UPDATE_SKILL_POINTS':
+        case 'UPDATE_IMPROVEMENT_POINTS':
             return {
                 ...state,
                 playerCharacter: {
                     ...state.playerCharacter,
-                    skillPoints: action.payload
+                    improvementPoints: action.payload
                 }
                 
             };
+        case 'UPDATE_SPELL_RANK':
+            return updateSpell(state, action.payload.spellName, action.payload.spellRank);
+
         default:
             return state;
     }

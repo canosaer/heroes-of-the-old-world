@@ -2,11 +2,11 @@ import { useState, useEffect, useContext, useCallback } from 'react';
 import { Context } from '../../context/store';
 import { Box } from '@mui/system';
 import { Typography, Stack, Card, Rating } from '@mui/material';
-import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
-import { styled } from '@mui/material/styles';
+import { CreateTooltip, AlertTooltip } from './CreateTooltips';
 import { defaultTraits } from '../../data/characters/defaultTraits';
 import { Trait, TraitsWithIndexSignature } from '../../context/types';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
+import { capitalizeFirstLetter } from '../../lib/utilities';
 
 export default function Traits() {
     const [ store, dispatch ] = useContext(Context);
@@ -24,69 +24,47 @@ export default function Traits() {
         vigor: "Endurance, health, and constitution",
     };
 
-    const TraitTooltip = styled(({ className, ...props }: TooltipProps) => (
-        <Tooltip {...props} classes={{ popper: className }} />
-      ))(({ theme }) => ({
-        [`& .${tooltipClasses.tooltip}`]: {
-          boxShadow: theme.shadows[1],
-          fontSize: 13,
-          maxWidth: 245,
-        },
-    }));
-
-    const AlertTooltip = styled(({ className, ...props }: TooltipProps) => (
-        <Tooltip {...props} classes={{ popper: className }} />
-      ))(({ theme }) => ({
-        [`& .${tooltipClasses.tooltip}`]: {
-          boxShadow: theme.shadows[1],
-          fontSize: 13,
-          maxWidth: 125,
-        },
-    }));
-
-    const calculateTotalSkillPoints = (
-        traits: Record<string, Trait>,
-        updatedTraitName?: string,
-        updatedSkillName?: string,
-        updatedSkillValue?: number
-      ) => {
-        let totalSkillPoints = 0;
-        let noticeBonus = false;
+    const calculateTotalImprovementPoints = useCallback(
+        (traits: Record<string, Trait>, updatedTraitName?: string, updatedSkillName?: string, updatedSkillValue?: number) => {
+          let totalImprovementPoints = 0;
+          let noticeBonus = false;
       
-        Object.entries<Trait>(traits).forEach(([currentTraitName, currentAbility]) => {
-          Object.entries(currentAbility.skills).forEach(([currentSkillName, currentSkillValue]) => {
-            let linkedAttributeRank = currentAbility.rank;
-            let skillPoints = 0;
-
-            if(store.playerCharacter.species === 'drake' && currentSkillName === 'notice' && linkedAttributeRank === 1) linkedAttributeRank = 2;
+          Object.entries<Trait>(traits).forEach(([currentTraitName, currentAbility]) => {
+            Object.entries(currentAbility.skills).forEach(([currentSkillName, currentSkillValue]) => {
+              let linkedAttributeRank = currentAbility.rank;
+              let improvementPoints = 0;
       
-            if (currentSkillName === updatedSkillName && currentTraitName === updatedTraitName) {
-              const skillPointDifference = (updatedSkillValue ?? 0) - linkedAttributeRank;
-              if (skillPointDifference > 0) {
-                skillPoints = linkedAttributeRank + skillPointDifference * 2;
+              if (store.playerCharacter.species === 'drake' && currentSkillName === 'notice' && linkedAttributeRank === 1) linkedAttributeRank = 2;
+      
+              if (currentSkillName === updatedSkillName && currentTraitName === updatedTraitName) {
+                const improvementPointDifference = (updatedSkillValue ?? 0) - linkedAttributeRank;
+                if (improvementPointDifference > 0) {
+                  improvementPoints = linkedAttributeRank + improvementPointDifference * 2;
+                } else {
+                  improvementPoints = updatedSkillValue ?? 0;
+                }
               } else {
-                skillPoints = updatedSkillValue ?? 0;
+                const currentValue = traits[currentTraitName].skills[currentSkillName];
+                const improvementPointDifference = currentValue - linkedAttributeRank;
+                improvementPoints = improvementPointDifference > 0 ? linkedAttributeRank + improvementPointDifference * 2 : currentValue;
               }
-            } else {
-              const currentValue = traits[currentTraitName].skills[currentSkillName];
-              const skillPointDifference = currentValue - linkedAttributeRank;
-              skillPoints = skillPointDifference > 0 ? linkedAttributeRank + skillPointDifference * 2 : currentValue;
-            }
       
-            totalSkillPoints += skillPoints;
+              totalImprovementPoints += improvementPoints;
+            });
           });
-        });
       
-        if(store.playerCharacter.species === 'drake' && store.playerCharacter.traits.smarts.skills.notice > 2) totalSkillPoints = totalSkillPoints - 1;
+          if (store.playerCharacter.species === 'drake' && store.playerCharacter.traits.smarts.skills.notice > 2) totalImprovementPoints = totalImprovementPoints - 1;
+      
+          return totalImprovementPoints;
+        },
+        [store.playerCharacter.species, store.playerCharacter.traits.smarts.skills.notice]
+    );
 
-        return totalSkillPoints;
-    };
-
-    const calculateSkillPoints = useCallback(() => {
-        const totalSkillPoints = calculateTotalSkillPoints(store.playerCharacter.traits);
-        const remainingSkillPoints = 17 - totalSkillPoints;
-        dispatch({ type: 'UPDATE_SKILL_POINTS', payload: remainingSkillPoints });
-    }, [store.playerCharacter.traits, dispatch]);
+    const calculateImprovementPoints = useCallback(() => {
+        const totalImprovementPoints = calculateTotalImprovementPoints(store.playerCharacter.traits);
+        const remainingImprovementPoints = 17 - totalImprovementPoints;
+        dispatch({ type: 'UPDATE_IMPROVEMENT_POINTS', payload: remainingImprovementPoints });
+    }, [store.playerCharacter.traits, calculateTotalImprovementPoints, dispatch]);
 
     const handleSkillChange = (abilityName: string, skillName: string, newValue: number) => {
         const payload = {
@@ -96,37 +74,19 @@ export default function Traits() {
     
         const updateType = `UPDATE_${abilityName.toUpperCase()}_SKILL`;
     
-        const totalSkillPoints = calculateTotalSkillPoints(store.playerCharacter.traits, abilityName, skillName, newValue);
-        const remainingSkillPoints = 17 - totalSkillPoints;
+        const totalImprovementPoints = calculateTotalImprovementPoints(store.playerCharacter.traits, abilityName, skillName, newValue);
+        const remainingImprovementPoints = 17 - totalImprovementPoints;
     
-        dispatch({ type: 'UPDATE_SKILL_POINTS', payload: remainingSkillPoints });
+        dispatch({ type: 'UPDATE_IMPROVEMENT_POINTS', payload: remainingImprovementPoints });
         dispatch({ type: updateType, payload });
     };
 
-    const capitalizeFirstLetter = (incomingString: string) => {
-        let result = incomingString.charAt(0).toUpperCase();
-    
-        for (let i = 1; i < incomingString.length; i++) {
-            const currentChar = incomingString.charAt(i);
-            const previousChar = incomingString.charAt(i - 1);
-    
-            // Insert a space before uppercase letters that are not at the beginning
-            if (currentChar === currentChar.toUpperCase() && previousChar !== ' ') {
-                result += ' ';
-            }
-    
-            result += currentChar;
-        }
-    
-        return result;
-    };
-
     // Function to calculate the maximum value for a skill
-    const calculateMaxSkillValue = (currentSkillRank: number, pointsToAttributeRank: number, skillPoints: number): number => {
+    const calculateMaxSkillValue = (currentSkillRank: number, pointsToAttributeRank: number, improvementPoints: number): number => {
         let calculatedMaxValue = currentSkillRank;
         if(pointsToAttributeRank < 0) pointsToAttributeRank = 0;
-        if (skillPoints > 0) {
-            const remainingSkillPool = skillPoints - pointsToAttributeRank;
+        if (improvementPoints > 0) {
+            const remainingSkillPool = improvementPoints - pointsToAttributeRank;
             calculatedMaxValue = currentSkillRank + pointsToAttributeRank + remainingSkillPool / 2;
         }
 
@@ -148,14 +108,14 @@ export default function Traits() {
         newPointsAvailable = newPointsAvailable - (agilityPoints + smartsPoints + strengthPoints + spiritPoints + vigorPoints);
         
         setAttributePoints(newPointsAvailable);
-        calculateSkillPoints();
-    }, [store.playerCharacter, calculateSkillPoints]);
+        calculateImprovementPoints();
+    }, [store.playerCharacter, calculateImprovementPoints]);
     
     return (
         <Stack className="traits" component="form" noValidate autoComplete="off">
             <Card className="points">
                 <Typography className="points__type" variant="h6">Attribute Points: {attributePoints}</Typography>
-                <Typography className="points__type points__type_skill" variant="h6">Skill Points: {store.playerCharacter.skillPoints}</Typography>
+                <Typography className="points__type points__type_skill" variant="h6">Improvement Points: {store.playerCharacter.improvementPoints}</Typography>
             </Card>
             {Object.entries(defaultTraits).map(([abilityName, trait]) => {
                 let currentAbilityRank = (store.playerCharacter.traits as TraitsWithIndexSignature)[abilityName as keyof TraitsWithIndexSignature].rank
@@ -165,9 +125,9 @@ export default function Traits() {
                 return (
                     <Box className="category" component="section" key={abilityName}>
                         <Box className="attribute">
-                            <TraitTooltip className="attribute__tooltip" placement="top-start" title={traitTooltips[abilityName]}>
+                            <CreateTooltip className="attribute__tooltip" placement="top-start" title={traitTooltips[abilityName]}>
                                 <Typography className="attribute__name">{capitalizeFirstLetter(abilityName)}</Typography>
-                            </TraitTooltip>
+                            </CreateTooltip>
                             <Rating
                                 key={`${abilityName}-${(store.playerCharacter.traits as TraitsWithIndexSignature)[abilityName as keyof TraitsWithIndexSignature].rank}`}
                                 className="attribute__rating"
@@ -193,7 +153,7 @@ export default function Traits() {
                                     const calculatedMaxValue = calculateMaxSkillValue(
                                     currentSkillRank,
                                     pointsToAttributeRank,
-                                    store.playerCharacter.skillPoints
+                                    store.playerCharacter.improvementPoints
                                     );
 
                                     if(skillName === 'notice' && store.playerCharacter.species === 'drake' && currentAbilityRank === 1) currentAbilityRank = 2;
@@ -216,12 +176,12 @@ export default function Traits() {
                                     return (
                                         <Box className="skill" key={skillName}>
                                             <Box className="skill__heading">
-                                                <TraitTooltip className="skill__tooltip" placement="right-start" title={''}>
+                                                <CreateTooltip className="skill__tooltip" placement="right-start" title={''}>
                                                     <Typography className="skill__name">
                                                         {capitalizeFirstLetter(skillName)}
                                                     </Typography>
-                                                </TraitTooltip>
-                                                {(pointsToAttributeRank < 1 && store.playerCharacter.skillPoints > 0 && currentAbility.skills[skillName] < 5) &&
+                                                </CreateTooltip>
+                                                {(pointsToAttributeRank < 1 && store.playerCharacter.improvementPoints > 0 && currentAbility.skills[skillName] < 5) &&
                                                     <AlertTooltip className="alert" placement="right-start" title={`x2 points to advance beyond linked attribute (${capitalizeFirstLetter(abilityName)}: ${currentAbility.rank})`}>
                                                         <AnnouncementIcon color="action" className="alert__icon" />
                                                     </AlertTooltip>

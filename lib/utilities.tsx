@@ -100,9 +100,28 @@ const unlockScroll = (): void => {
     window.onscroll = function () {};
 };
 
+const capitalizeFirstLetter = (incomingString: string) => {
+    let result = incomingString.charAt(0).toUpperCase();
+
+    for (let i = 1; i < incomingString.length; i++) {
+        const currentChar = incomingString.charAt(i);
+        const previousChar = incomingString.charAt(i - 1);
+
+        // Insert a space before uppercase letters that are not at the beginning
+        if (currentChar === currentChar.toUpperCase() && previousChar !== ' ') {
+            result += ' ';
+        }
+
+        result += currentChar;
+    }
+
+    return result;
+};
+
 export {
     useDebounce,
     useMutationObservable,
     lockScroll,
     unlockScroll,
+    capitalizeFirstLetter,
 };
