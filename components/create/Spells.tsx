@@ -17,24 +17,29 @@ export default function Spells() {
     
             // Use 0 as the default value if newValue is null
             const newRank = newValue !== null ? newValue : 0;
-    
+
             const improvementPointChange = (newRank - currentRank) * 2;
-            const newImprovementPoints = store.playerCharacter.improvementPoints + improvementPointChange;
+            const newImprovementPoints = store.playerCharacter.improvementPoints - improvementPointChange;
     
             dispatch({
                 type: 'UPDATE_SPELL_RANK',
                 payload: {
                     spellName: spellName,
-                    newRank: newRank,
+                    spellRank: newRank,
                 },
             });
-
+    
+            // Make sure to set the value prop of Rating to the newRank
             dispatch({
                 type: 'UPDATE_IMPROVEMENT_POINTS',
-                payload:  newImprovementPoints,
+                payload: newImprovementPoints,
             });
         }
     };
+
+    useEffect(() => {
+        console.log(store)
+    }, [store]);
 
     return (
         <Stack className="spells" component="form" noValidate autoComplete="off">
@@ -44,7 +49,8 @@ export default function Spells() {
             <Card className="spells__category">
                 {store.playerCharacter.spells.map((spell) => {
 
-                    let maxValue = Math.floor(store.playerCharacter.improvementPoints / 2)
+                    let maxValue = spell.rank + Math.floor(store.playerCharacter.improvementPoints / 2)
+                    if(spell.rank > maxValue) maxValue = spell.rank
                     if(maxValue > 5) maxValue = 5
 
                     return (

@@ -26,38 +26,45 @@ export default function Traits() {
 
     const calculateTotalImprovementPoints = useCallback(
         (traits: Record<string, Trait>, updatedTraitName?: string, updatedSkillName?: string, updatedSkillValue?: number) => {
-          let totalImprovementPoints = 0;
-          let noticeBonus = false;
-      
-          Object.entries<Trait>(traits).forEach(([currentTraitName, currentAbility]) => {
-            Object.entries(currentAbility.skills).forEach(([currentSkillName, currentSkillValue]) => {
-              let linkedAttributeRank = currentAbility.rank;
-              let improvementPoints = 0;
-      
-              if (store.playerCharacter.species === 'drake' && currentSkillName === 'notice' && linkedAttributeRank === 1) linkedAttributeRank = 2;
-      
-              if (currentSkillName === updatedSkillName && currentTraitName === updatedTraitName) {
-                const improvementPointDifference = (updatedSkillValue ?? 0) - linkedAttributeRank;
-                if (improvementPointDifference > 0) {
-                  improvementPoints = linkedAttributeRank + improvementPointDifference * 2;
-                } else {
-                  improvementPoints = updatedSkillValue ?? 0;
-                }
-              } else {
-                const currentValue = traits[currentTraitName].skills[currentSkillName];
-                const improvementPointDifference = currentValue - linkedAttributeRank;
-                improvementPoints = improvementPointDifference > 0 ? linkedAttributeRank + improvementPointDifference * 2 : currentValue;
-              }
-      
-              totalImprovementPoints += improvementPoints;
+            let totalImprovementPoints = 0;
+    
+            // Calculate the sum of all spell ranks
+            const totalSpellRanks = store.playerCharacter.spells.reduce((sum, spell) => sum + spell.rank, 0);
+    
+            // Loop through traits and skills to calculate improvement points
+            Object.entries<Trait>(traits).forEach(([currentTraitName, currentAbility]) => {
+                Object.entries(currentAbility.skills).forEach(([currentSkillName, currentSkillValue]) => {
+                    let linkedAttributeRank = currentAbility.rank;
+                    let improvementPoints = 0;
+    
+                    if (store.playerCharacter.species === 'drake' && currentSkillName === 'notice' && linkedAttributeRank === 1) {
+                        linkedAttributeRank = 2;
+                    }
+    
+                    if (currentSkillName === updatedSkillName && currentTraitName === updatedTraitName) {
+                        const improvementPointDifference = (updatedSkillValue ?? 0) - linkedAttributeRank;
+                        improvementPoints = improvementPointDifference > 0 ? linkedAttributeRank + improvementPointDifference * 2 : updatedSkillValue ?? 0;
+                    } else {
+                        const currentValue = traits[currentTraitName].skills[currentSkillName];
+                        const improvementPointDifference = currentValue - linkedAttributeRank;
+                        improvementPoints =
+                            improvementPointDifference > 0 ? linkedAttributeRank + improvementPointDifference * 2 : currentValue;
+                    }
+    
+                    totalImprovementPoints += improvementPoints;
+                });
             });
-          });
-      
-          if (store.playerCharacter.species === 'drake' && store.playerCharacter.traits.smarts.skills.notice > 2) totalImprovementPoints = totalImprovementPoints - 1;
-      
-          return totalImprovementPoints;
+    
+            // Add the sum of all spell ranks to the total improvement points
+            totalImprovementPoints += totalSpellRanks * 2;
+    
+            if (store.playerCharacter.species === 'drake' && store.playerCharacter.traits.smarts.skills.notice > 2) {
+                totalImprovementPoints = totalImprovementPoints - 1;
+            }
+    
+            return totalImprovementPoints;
         },
-        [store.playerCharacter.species, store.playerCharacter.traits.smarts.skills.notice]
+        [store.playerCharacter.species, store.playerCharacter.traits.smarts.skills.notice, store.playerCharacter.spells]
     );
 
     const calculateImprovementPoints = useCallback(() => {
@@ -109,7 +116,7 @@ export default function Traits() {
         
         setAttributePoints(newPointsAvailable);
         calculateImprovementPoints();
-    }, [store.playerCharacter, calculateImprovementPoints]);
+    }, [store.playerCharacter.traits, store.playerCharacter.species, calculateImprovementPoints]);
     
     return (
         <Stack className="traits" component="form" noValidate autoComplete="off">
@@ -151,9 +158,9 @@ export default function Traits() {
                                     const currentSkillRank = currentAbility.skills[skillName];
                                     const pointsToAttributeRank = currentAbility.rank - currentSkillRank;
                                     const calculatedMaxValue = calculateMaxSkillValue(
-                                    currentSkillRank,
-                                    pointsToAttributeRank,
-                                    store.playerCharacter.improvementPoints
+                                        currentSkillRank,
+                                        pointsToAttributeRank,
+                                        store.playerCharacter.improvementPoints
                                     );
 
                                     if(skillName === 'notice' && store.playerCharacter.species === 'drake' && currentAbilityRank === 1) currentAbilityRank = 2;
