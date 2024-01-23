@@ -71,11 +71,11 @@ export const edges = {
       },
       summary: "+1 to Performance and Persuasion rolls."
     },
-    {
-      name: "Beast Bond",
-      requirements: {},
-      summary: "You may spend Bennies for animals under your control."
-    },
+    // {
+    //   name: "Beast Bond",
+    //   requirements: {},
+    //   summary: "You may spend Bennies for animals under your control."
+    // },
     {
       name: "Berserk",
       requirements: {},
@@ -173,11 +173,11 @@ export const edges = {
       requirements: {},
       summary: "Contacts provide aid or other favor."
     },
-    {
-      name: "Danger Sense",
-      requirements: {},
-      summary: "Notice roll at +2 to sense ambushes or similar events."
-    },
+    // {
+    //   name: "Danger Sense",
+    //   requirements: {},
+    //   summary: "Notice roll at +2 to sense ambushes or similar events."
+    // },
     {
       name: "Dead Shot",
       requirements: {
@@ -270,7 +270,7 @@ export const edges = {
       requirements: {
         edges: ["Luck",],
       },
-      summary: "+2 Luck Points at the start of each session."
+      summary: "+2 maximum Luck."
     },
     {
       name: "Hard to Kill",
@@ -364,7 +364,7 @@ export const edges = {
     {
       name: "Luck",
       requirements: {},
-      summary: "+1 Luck Point at the start of each session."
+      summary: "+1 maximum Luck."
     },
     {
       name: "Martial Artist",
@@ -464,15 +464,15 @@ export const edges = {
       },
       summary: "Strength is one die type higher for Encumbrance and Min Str. Reroll Vigor rolls when resisting environmental Hazards."
     },
-    {
-      name: "Steady Hands",
-      requirements: {
-        attributes: {
-          agility: 3,
-        },
-      },
-      summary: "Ignore Unstable Platform penalty; reduce running penalty to -1."
-    },
+    // {
+    //   name: "Steady Hands",
+    //   requirements: {
+    //     attributes: {
+    //       agility: 3,
+    //     },
+    //   },
+    //   summary: "Ignore Unstable Platform penalty; reduce running penalty to -1."
+    // },
     {
       name: "Streetwise",
       requirements: {
@@ -535,7 +535,7 @@ export const edges = {
           smarts: 2,
         },
       },
-      summary: "Improved initiative in combat."
+      summary: "Improved combat initiative."
     },
     {
       name: "Very Attractive",
