@@ -203,7 +203,22 @@ const reducer = (state: TypesData, action: Action): TypesData => {
             };
         case 'UPDATE_SPELL_RANK':
             return updateSpell(state, action.payload.spellName, action.payload.spellRank);
-
+        case 'ADD_EDGE':
+            return {
+                ...state,
+                playerCharacter: {
+                ...state.playerCharacter,
+                edges: [...state.playerCharacter.edges, action.payload],
+                },
+            };
+        case 'REMOVE_EDGE':
+            return {
+                ...state,
+                playerCharacter: {
+                ...state.playerCharacter,
+                edges: state.playerCharacter.edges.filter(edge => edge !== action.payload),
+                },
+            };
         default:
             return state;
     }

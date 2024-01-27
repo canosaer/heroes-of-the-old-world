@@ -13,6 +13,7 @@ import Basics from '../components/create/Basics';
 import Edges from '../components/create/Edges';
 import Traits from '../components/create/Traits';
 import Spells from '../components/create/Spells';
+import Review from '../components/create/Review';
 
 export default function Create() {
   const [ store, dispatch ] = useContext(Context);
@@ -32,6 +33,9 @@ export default function Create() {
       break;
     case 3:
       headingText = 'Edges';
+      break;
+    case 4:
+      headingText = 'Review';
       break;
     default:
       break;
@@ -57,12 +61,12 @@ export default function Create() {
         <MobileStepper
           className="stepper"
           variant="dots"
-          steps={4}
+          steps={5}
           position="static"
           activeStep={activeStep}
           sx={{ maxWidth: 400, flexGrow: 1 }}
           nextButton={
-            <Button size="small" onClick={advanceStep} disabled={activeStep === 3}>
+            <Button size="small" onClick={advanceStep} disabled={activeStep === 4}>
               <NavigateNext />
             </Button>
           }
@@ -77,6 +81,7 @@ export default function Create() {
         {activeStep === 1 && <Traits />}
         {activeStep === 2 && <Spells />}
         {activeStep === 3 && <Edges />}
+        {activeStep === 4 && <Review />}
       </Paper>
       
     </Box>

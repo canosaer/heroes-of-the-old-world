@@ -71,11 +71,6 @@ export const edges = {
       },
       summary: "+1 to Performance and Persuasion rolls."
     },
-    // {
-    //   name: "Beast Bond",
-    //   requirements: {},
-    //   summary: "You may spend Bennies for animals under your control."
-    // },
     {
       name: "Berserk",
       requirements: {},
@@ -173,11 +168,6 @@ export const edges = {
       requirements: {},
       summary: "Contacts provide aid or other favor."
     },
-    // {
-    //   name: "Danger Sense",
-    //   requirements: {},
-    //   summary: "Notice roll at +2 to sense ambushes or similar events."
-    // },
     {
       name: "Dead Shot",
       requirements: {
@@ -492,6 +482,18 @@ export const edges = {
       summary: "+2 to resist Smarts or Spirit-based Tests."
     },
     {
+      name: "Survivalist",
+      requirements: {
+        attributes: {
+          spirit: 2,
+        },
+        skills: {
+          survival: 3,
+        }
+      },
+      summary: "+2 to Survival and Stealth in the wilds."
+    },
+    {
       name: "Sweep",
       requirements: {
         attributes: {
@@ -543,18 +545,6 @@ export const edges = {
         edges: ["Attractive",],
       },
       summary: "+2 to Performance and Persuasion rolls."
-    },
-    {
-      name: "Woodsman",
-      requirements: {
-        attributes: {
-          spirit: 2,
-        },
-        skills: {
-          survival: 3,
-        }
-      },
-      summary: "+2 to Survival and Stealth in the wilds."
     },
   ]
 }

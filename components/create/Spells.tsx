@@ -37,9 +37,9 @@ export default function Spells() {
         }
     };
 
-    useEffect(() => {
-        console.log(store)
-    }, [store]);
+    // useEffect(() => {
+    //     console.log(store)
+    // }, [store]);
 
     return (
         <Stack className="spells" component="form" noValidate autoComplete="off">

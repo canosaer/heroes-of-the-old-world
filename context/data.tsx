@@ -21,9 +21,7 @@ const data: TypesData = {
         species: 'human',
         playerPortraitIndex: 0,
         improvementPoints: 12,
-        edges: [
-            "",
-        ],
+        edges: [],
         traits: {
             ...defaultTraits,
         },

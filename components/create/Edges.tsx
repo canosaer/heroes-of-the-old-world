@@ -10,9 +10,33 @@ export default function Edges() {
     const [ store, dispatch ] = useContext(Context);
     const [ searchTerm, setSearchTerm ] = useState('');
     const [ results, setResults ] = useState<Edge[]>(edges.N); // Initialize with the entire list of edges
-    const [ edgePoints, setEdgePoints ] = useState(1);
+    const [ edgePoints, setEdgePoints ] = useState(store.playerCharacter.species === 'human' ? 2 : 1);
+    const [ consideredEdges, setConsideredEdges ] = useState<string[]>([]);
     
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+    const toggleEdge = (edgeName: string) => {
+        // Check if the edge is already in the player's edges
+        if (store.playerCharacter.edges.includes(edgeName)) {
+            // Edge is already present, remove it
+            dispatch({ type: 'REMOVE_EDGE', payload: edgeName });
+        } else {
+            if (edgePoints > 0) {
+                // Edge is not present, add it
+                dispatch({ type: 'ADD_EDGE', payload: edgeName });
+            } else {
+                // Edge is being considered, but no edgePoints remaining
+                // Check if the edge is already in the consideredEdges array
+                if (consideredEdges.includes(edgeName)) {
+                    // Edge is already considered, remove it from consideredEdges
+                    setConsideredEdges(consideredEdges.filter(edge => edge !== edgeName));
+                } else {
+                    // Edge is not in consideredEdges, add it
+                    setConsideredEdges([...consideredEdges, edgeName]);
+                }
+            }
+        }
+    };
 
     // Filter edges based on the debouncedSearchTerm
     useEffect(() => {
@@ -25,6 +49,18 @@ export default function Edges() {
             setResults(edges.N); // Set Results to the entire list of edges if search term is empty
         }
     }, [debouncedSearchTerm]);
+
+    useEffect(() => {
+        const maxEdgePoints = store.playerCharacter.species === 'human' ? 2 : 1
+
+        if (maxEdgePoints - store.playerCharacter.edges.length !== edgePoints) {
+            setEdgePoints(maxEdgePoints - store.playerCharacter.edges.length)
+        }
+    }, [store.playerCharacter.edges, edgePoints]);
+
+    useEffect(() => {
+        console.log(store)
+    }, [store]);
 
     return (
         <Stack className="edges" component="form" noValidate autoComplete="off">
@@ -86,12 +122,20 @@ export default function Edges() {
                     }
                 }
 
+                // Check if the edge is selected or considered
+                const isSelected = store.playerCharacter.edges.includes(edge.name);
+                const isConsidered = consideredEdges.includes(edge.name);
+
                 return(
                     eligible &&
-                        <Card key={`${i}-${edge.name}`}>
-                            <CardContent>
-                                <Typography variant="h5">{edge.name}</Typography>
-                                <Typography variant="body2">{edge.summary}</Typography>
+                        <Card
+                            className={`edge-card ${isSelected ? 'edge-card_selected' : isConsidered ? 'edge-card_considered' : ''}`}
+                            key={`${i}-${edge.name}`}
+                            onClick={() => toggleEdge(edge.name)}
+                        >
+                            <CardContent className="edge-card__content">
+                                <Typography  className="edge-card__name" variant="h5">{edge.name}</Typography>
+                                <Typography className="edge-card__summary" variant="body2">{edge.summary}</Typography>
                             </CardContent>
                         </Card>
                 );
