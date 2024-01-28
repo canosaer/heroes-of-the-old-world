@@ -15,6 +15,7 @@
     .edge-card{
         cursor: pointer;
         user-select: none;
+        margin: 0.3rem 0;
 
         &_selected{
             background-color: cornsilk;

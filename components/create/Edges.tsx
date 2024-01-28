@@ -56,7 +56,7 @@ export default function Edges() {
         if (maxEdgePoints - store.playerCharacter.edges.length !== edgePoints) {
             setEdgePoints(maxEdgePoints - store.playerCharacter.edges.length)
         }
-    }, [store.playerCharacter.edges, edgePoints]);
+    }, [store.playerCharacter.edges, edgePoints, store.playerCharacter.species]);
 
     useEffect(() => {
         console.log(store)

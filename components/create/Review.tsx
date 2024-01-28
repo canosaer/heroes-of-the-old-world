@@ -5,6 +5,7 @@ import { Typography, Stack, TextField, Card, CardContent, CardMedia, IconButton 
 import { NavigateNext, NavigateBefore } from '@mui/icons-material';
 import { playableSpecies } from '../../data/characters/playableSpecies';
 import { portraits } from '../../data/characters/portraits';
+import { capitalizeFirstLetter } from '../../lib/utilities';
 
 export default function Review() {
     const [ store, dispatch ] = useContext(Context);
@@ -23,29 +24,8 @@ export default function Review() {
 
     return (
         <Stack className="review" component="form" noValidate autoComplete="off">
-            <TextField 
-                className="name" 
-                component="data" label="Name" 
-                value={store.playerCharacter.name} 
-                onChange={(e) => dispatch ({ type: 'SET_NAME', payload: e.target.value })}
-            />
-            <TextField 
-                className="species" 
-                component="data" 
-                select 
-                label="Species" 
-                value={store.playerCharacter.species}
-                SelectProps={{
-                    native: true,
-                }}
-                onChange={(e) => dispatch ({ type: 'SET_SPECIES', payload: e.target.value as "human" | "dwarf" | "drake" | "elf" })}
-            >
-            {playableSpecies.map((option) => (
-                <option className="species__option" key={option.value} value={option.value}>
-                    {option.label}
-                </option>
-            ))}
-            </TextField>
+            <Typography className="name" variant="h6">Name: {store.playerCharacter.name}</Typography>
+            <Typography className="name" variant="h6">Species: {capitalizeFirstLetter(store.playerCharacter.species)}</Typography>
             <Box className="portrait">
                 <Typography className="portrait__heading" variant="h6">Portrait</Typography>
                 <Card className="portrait__frame">
@@ -61,38 +41,6 @@ export default function Review() {
                         alt=""
                     />
                 </Card>
-                <Box className="controls" sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                    <IconButton
-                        className="controls__button controls__button_prev"
-                        aria-label="previous"
-                        onClick={() => {
-                            dispatch({
-                                type: 'SET_PORTRAIT',
-                                payload:
-                                    store.playerCharacter.playerPortraitIndex === 0
-                                        ? portraitArray.length - 1
-                                        : store.playerCharacter.playerPortraitIndex - 1
-                            });
-                        }}
-                    >
-                        <NavigateBefore className="controls__icon controls__icon_prev" />
-                    </IconButton>
-                    <IconButton
-                        className="controls__button controls__button_next"
-                        aria-label="next"
-                        onClick={() => {
-                            dispatch({
-                                type: 'SET_PORTRAIT',
-                                payload:
-                                    store.playerCharacter.playerPortraitIndex === portraitArray.length - 1
-                                        ? 0
-                                        : store.playerCharacter.playerPortraitIndex + 1
-                            });
-                        }}
-                    >
-                        <NavigateNext className="controls__icon controls__icon_prev" />
-                    </IconButton>
-                </Box>
             </Box>
             <Box className="features">
                 <Typography className="features__heading" variant="h6" sx={{ mb: 1 }}>
