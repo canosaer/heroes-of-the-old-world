@@ -42,6 +42,9 @@ export default function Review() {
                     />
                 </Card>
             </Box>
+            <Box className="traits">
+
+            </Box>
             <Box className="features">
                 <Typography className="features__heading" variant="h6" sx={{ mb: 1 }}>
                     Features
