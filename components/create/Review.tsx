@@ -24,8 +24,9 @@ export default function Review() {
 
     return (
         <Stack className="review" component="form" noValidate autoComplete="off">
-            <Typography className="name" variant="h6">Name: {store.playerCharacter.name}</Typography>
-            <Typography className="name" variant="h6">Species: {capitalizeFirstLetter(store.playerCharacter.species)}</Typography>
+            <Typography className="name" variant="h6">Name: <span className="name__value">{store.playerCharacter.name}</span></Typography> 
+            <Typography className="species" variant="h6">Species: <span className="species__value">{capitalizeFirstLetter(store.playerCharacter.species)}</span></Typography>
+            
             <Box className="portrait">
                 <Typography className="portrait__heading" variant="h6">Portrait</Typography>
                 <Card className="portrait__frame">

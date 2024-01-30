@@ -3,9 +3,11 @@
 
 .review{
     .name, .species{
-        margin-bottom: 1.4rem;
         font-family: 'Prata', serif;
-        font-weight: bold;
+
+        &__value{
+            opacity: 0.9;
+        }
     }
 
     .portrait{
