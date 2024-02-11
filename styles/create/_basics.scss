@@ -2,8 +2,23 @@
 @use '../mixins';
 
 .basics{
-    .name, .species{
+    .name-row, .species{
         margin-bottom: 1.4rem;
+    }
+
+    .name-row{
+        display: flex;
+        width: 100%;
+
+        &__name{
+            width: 100%;
+        }
+
+        &__randomize{
+            width: 3.15rem;
+            height: 3.15rem;
+            cursor: pointer;
+        }
     }
 
     .portrait{

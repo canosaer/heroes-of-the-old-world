@@ -1,15 +1,23 @@
 import { useState, useEffect, useContext } from 'react';
 import { Context } from '../../context/store';
 import { Box } from '@mui/system';
+import { CreateTooltip } from './CreateTooltips';
 import { Typography, Stack, TextField, Card, CardContent, CardMedia, IconButton } from '@mui/material';
-import { NavigateNext, NavigateBefore } from '@mui/icons-material';
+import { NavigateNext, NavigateBefore, Casino } from '@mui/icons-material';
 import { playableSpecies } from '../../data/characters/playableSpecies';
 import { portraits } from '../../data/characters/portraits';
+import generateRandomCharacter from '../../lib/generateRandomCharacter';
+
 
 export default function Create() {
     const [ store, dispatch ] = useContext(Context);
     const playerSpecies = store?.playerCharacter.species as keyof typeof portraits;
     const portraitArray = portraits[playerSpecies];
+
+    const createRandomCharacter = () => {
+        const randomCharacter = generateRandomCharacter();
+        dispatch({ type: 'SET_RANDOM_CHARACTER', payload: randomCharacter });
+    };
 
     useEffect(() => {
     if (portraitArray && portraitArray.length > 0) {
@@ -23,13 +31,19 @@ export default function Create() {
 
     return (
         <Stack className="basics" component="form" noValidate autoComplete="off">
-            <TextField 
-                className="name" 
-                component="data" label="Name" 
-                value={store.playerCharacter.name} 
-                onChange={(e) => dispatch ({ type: 'SET_NAME', payload: e.target.value })}
-            />
-            <TextField 
+            <Box className="name-row">
+                <TextField
+                    className="name-row__name" 
+                    component="data" label="Name" 
+                    value={store.playerCharacter.name} 
+                    onChange={(e) => dispatch ({ type: 'SET_NAME', payload: e.target.value })}
+                />
+                <CreateTooltip className="name-row__tooltip" placement="top-start" title={"Create random character"}>
+                    <Casino onClick={createRandomCharacter} className="name-row__randomize" />
+                </CreateTooltip>
+            </Box>
+            
+            <TextField
                 className="species" 
                 component="data" 
                 select 

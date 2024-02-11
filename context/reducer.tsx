@@ -219,6 +219,20 @@ const reducer = (state: TypesData, action: Action): TypesData => {
                 edges: state.playerCharacter.edges.filter(edge => edge !== action.payload),
                 },
             };
+        case 'SET_RANDOM_CHARACTER':
+            return {
+                ...state,
+                playerCharacter: {
+                    ...state.playerCharacter,
+                    name: action.payload.name,
+                    species: action.payload.species,
+                    playerPortraitIndex: action.payload.playerPortraitIndex,
+                    traits: action.payload.traits,
+                    improvementPoints: action.payload.improvementPoints,
+                    edges: action.payload.edges,
+                    spells: action.payload.spells,
+                },
+            };
         default:
             return state;
     }
