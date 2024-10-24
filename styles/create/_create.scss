@@ -1,0 +1,33 @@
+@use '../variables';
+@use '../mixins';
+
+.create{
+    @include mixins.default-grid;
+    grid-auto-rows: max-content;
+    padding: 2rem 1rem 0rem;
+
+    &__heading{
+        color: whitesmoke;
+        font-family: 'Prata', serif;
+    }
+
+    .chargen{
+        margin-top: 2rem;
+        padding: 1rem;
+
+        &__heading{
+            font-family: 'Prata', serif;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+    }
+
+    .stepper{
+        padding-bottom: 0.25rem;
+    }
+
+    .sections{
+        margin-bottom: 1.4rem;
+    }
+
+}

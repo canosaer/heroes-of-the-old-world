@@ -1,7 +1,7 @@
 /* 
 ==============================================
 CONTENT:	
-AUTHOR: Block + Tackle
+AUTHOR: Eric Canosa
 ==============================================
 TABLE OF CONTENTS:
 0. Initialization
@@ -17,9 +17,17 @@ TABLE OF CONTENTS:
 @use "mixins";
 
 /* 1. Partials =============================== */
-
+@use "home";
+@use "battle-map";
+@use "./create/create";
+@use "./create/basics";
+@use "./create/traits";
+@use "./create/edges";
+@use "./create/spells";
+@use "./create/review";
 
 /* 2. Fonts ================================== */
+@import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
 
 /* 3. General ================================ */
 
@@ -28,8 +36,8 @@ a {
 }
 
 body {
-  font-family:'Lucida Sans', sans-serif;
   position: relative;
+  background-color: #113E53;
 }
 
 #__next {

@@ -1,0 +1,13 @@
+@use 'variables';
+@use 'mixins';
+
+.battle-map{
+    @include mixins.default-grid;
+    grid-auto-rows: max-content;
+    place-items: center center;
+    padding-top: 0.75rem;
+
+    .stage{
+        background: rgba(0,0,0,0.65);
+    }
+}

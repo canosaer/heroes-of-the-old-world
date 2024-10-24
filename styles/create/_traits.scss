@@ -1,0 +1,64 @@
+@use '../variables';
+@use '../mixins';
+
+.traits{
+    .points{
+        margin-bottom: 1.25rem;
+
+        &__type{
+            cursor: default;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+    }
+
+    .category{
+        margin-bottom: 1.25rem;
+    }
+
+    .attribute{
+        display: flex;
+        margin-bottom: 0.2rem;
+
+        &__name{
+            width: max-content;
+            cursor: default;
+            margin-right: 0.3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        &__rating{
+            margin-top: -0.15rem;
+        }
+    }
+
+    .skills{
+        &__heading{
+            font-size: 1.05rem;
+            margin-bottom: 0.05rem;
+        }
+
+        &__category{
+            margin-bottom: 1rem;
+        }
+    }
+
+    .skill{
+        &__heading{
+            display: flex;
+        }
+
+        &__name, &__none{
+            cursor: default;
+        }
+    }
+
+    .alert{
+        &__icon{
+            margin-left: 0.2rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+    }
+}
